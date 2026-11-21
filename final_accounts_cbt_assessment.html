@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Final Accounts CBT Assessment</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- html2pdf.js CDN for PDF export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      user-select: none;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #printable-pdf-area, #printable-pdf-area * {
+        visibility: visible;
+      }
+      #printable-pdf-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- ==================== REGISTRATION SCREEN ==================== -->
+  <div id="screen-entry" class="min-h-screen flex items-center justify-center p-4 sm:p-6 bg-slate-900 bg-opacity-95 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:16px_16px]">
+    <div class="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-slate-200 transition-all">
+      <!-- Header Banner -->
+      <div class="bg-gradient-to-r from-blue-700 via-indigo-700 to-slate-800 p-6 text-white text-center">
+        <div class="inline-flex items-center justify-center w-14 h-14 bg-white/10 rounded-2xl mb-3 backdrop-blur-sm border border-white/20">
+          <i class="fa-solid me-0 fa-file-invoice-dollar text-2xl text-blue-200"></i>
+        </div>
+        <h1 class="text-2xl font-bold tracking-tight">Final Accounts Assessment</h1>
+        <p class="text-xs text-blue-200 mt-1">Computer-Based Examination Portal • Financial Accounting</p>
+      </div>
+
+      <!-- Instructions & Candidate Details Form -->
+      <div class="p-6 sm:p-8 space-y-6">
+        <div>
+          <label for="candidate-name-input" class="block text-sm font-semibold text-slate-700 mb-2">
+            Candidate Full Name <span class="text-rose-500">*</span>
+          </label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <i class="fa-solid fa-user-pen"></i>
+            </span>
+            <input type="text" id="candidate-name-input" placeholder="Enter your full name to proceed" 
+              class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition text-sm font-medium">
+          </div>
+          <p id="entry-error" class="text-xs text-rose-500 mt-1.5 hidden font-medium">
+            <i class="fa-solid fa-circle-exclamation me-1"></i>Please enter candidate's full name to start test.
+          </p>
+        </div>
+
+        <!-- Exam Overview Grid -->
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+          <div class="p-2.5 bg-white rounded-lg border border-slate-200 shadow-sm">
+            <span class="block text-xs text-slate-500 uppercase font-semibold">Questions</span>
+            <span class="text-lg font-bold text-blue-700">20</span>
+          </div>
+          <div class="p-2.5 bg-white rounded-lg border border-slate-200 shadow-sm">
+            <span class="block text-xs text-slate-500 uppercase font-semibold">Duration</span>
+            <span class="text-lg font-bold text-amber-600">30 Mins</span>
+          </div>
+          <div class="p-2.5 bg-white rounded-lg border border-slate-200 shadow-sm">
+            <span class="block text-xs text-slate-500 uppercase font-semibold">Total Marks</span>
+            <span class="text-lg font-bold text-emerald-600">20</span>
+          </div>
+          <div class="p-2.5 bg-white rounded-lg border border-slate-200 shadow-sm">
+            <span class="block text-xs text-slate-500 uppercase font-semibold">Negative</span>
+            <span class="text-lg font-bold text-slate-700">None</span>
+          </div>
+        </div>
+
+        <!-- Exam Guidelines List -->
+        <div class="space-y-2 text-xs text-slate-600 bg-blue-50/50 p-4 rounded-xl border border-blue-100">
+          <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+            <i class="fa-solid fa-clipboard-list text-blue-600"></i> Examination Guidelines:
+          </h3>
+          <ul class="space-y-1.5 list-disc list-inside text-slate-600">
+            <li>Questions & option orders are randomly assigned per candidate session.</li>
+            <li>Use the right-side <strong>Question Palette</strong> to jump directly to any question.</li>
+            <li>Click <strong>Save & Next</strong> to save answers; use <strong>Mark for Review</strong> to flag items.</li>
+            <li>Timer starts immediately upon clicking <strong>Start Assessment</strong>.</li>
+          </ul>
+        </div>
+
+        <button id="btn-start-exam" onclick="startAssessment()" 
+          class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/25 transition flex items-center justify-center gap-2 group">
+          <span>Start Assessment</span>
+          <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== CBT EXAM SCREEN ==================== -->
+  <div id="screen-cbt" class="hidden min-h-screen flex flex-col bg-slate-100">
+    <!-- CBT Header Bar -->
+    <header class="bg-slate-900 text-white shadow-md sticky top-0 z-30 border-b border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-blue-600/30 rounded-xl flex items-center justify-center border border-blue-400/30">
+            <i class="fa-solid fa-calculator text-blue-400"></i>
+          </div>
+          <div>
+            <h2 class="font-bold text-base text-slate-100 leading-tight">Final Accounts Assessment</h2>
+            <p class="text-xs text-slate-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-user-circle text-blue-400"></i>
+              Candidate: <span id="display-candidate-name" class="text-slate-200 font-semibold">Candidate</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Timer & Quick Submit -->
+        <div class="flex items-center gap-2 sm:gap-4">
+          <button onclick="toggleCalculator()" id="btn-toggle-calc" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-blue-300 text-xs font-semibold rounded-xl transition flex items-center gap-1.5" title="Toggle On-Screen Calculator">
+            <i class="fa-solid fa-calculator"></i>
+            <span class="hidden sm:inline">Calculator</span>
+          </button>
+          <div id="timer-box" class="bg-slate-800 border border-slate-700 px-4 py-1.5 rounded-xl flex items-center gap-2 font-mono text-lg font-bold text-emerald-400 transition-colors">
+            <i class="fa-solid fa-stopwatch text-slate-400 text-base"></i>
+            <span id="timer-display">30:00</span>
+          </div>
+          <button onclick="confirmSubmitModal()" class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold rounded-xl shadow transition flex items-center gap-1.5">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span class="hidden sm:inline">Submit Test</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main CBT Workspace -->
+    <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+      
+      <!-- Left Panel: Question & Options Area -->
+      <div class="lg:col-span-8 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col justify-between min-h-[480px]">
+        <div class="p-6 sm:p-8 space-y-6">
+          <!-- Question Meta Header -->
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-slate-100">
+            <span id="current-q-badge" class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded-lg">
+              Question 1 of 20
+            </span>
+            <div class="flex items-center gap-2 text-xs font-semibold text-slate-500">
+              <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-md border border-emerald-200">+1.0 Mark</span>
+              <span class="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-md">0 Negative</span>
+            </div>
+          </div>
+
+          <!-- Question Prompt -->
+          <div id="question-text" class="text-base sm:text-lg font-semibold text-slate-800 leading-relaxed">
+            Loading question...
+          </div>
+
+          <!-- Options List -->
+          <div id="options-container" class="space-y-3 pt-2">
+            <!-- Dynamically populated options -->
+          </div>
+        </div>
+
+        <!-- Bottom Action Controls -->
+        <div class="bg-slate-50 px-6 py-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="btn-prev-q" onclick="navigateQuestion(-1)" disabled
+              class="px-4 py-2.5 bg-white border border-slate-300 hover:bg-slate-100 disabled:opacity-40 disabled:pointer-events-none text-slate-700 text-xs font-bold rounded-xl transition flex items-center gap-1.5">
+              <i class="fa-solid fa-chevron-left"></i> Previous
+            </button>
+            <button onclick="clearResponse()"
+              class="px-4 py-2.5 bg-white border border-slate-300 hover:bg-rose-50 hover:text-rose-700 hover:border-rose-300 text-slate-700 text-xs font-bold rounded-xl transition">
+              Clear Response
+            </button>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="markForReviewAndNext()"
+              class="px-4 py-2.5 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold rounded-xl shadow-sm transition flex items-center gap-1.5">
+              <i class="fa-solid fa-bookmark"></i> Mark for Review & Next
+            </button>
+            <button id="btn-save-next" onclick="saveAndNext()"
+              class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-md shadow-blue-500/20 transition flex items-center gap-1.5">
+              <span>Save & Next</span> <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel: Question Palette & Status Legend -->
+      <aside class="lg:col-span-4 bg-white rounded-2xl shadow-sm border border-slate-200 p-5 space-y-5">
+        <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+          <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+            <i class="fa-solid fa-grip text-blue-600"></i> Question Palette
+          </h3>
+          <span class="text-xs text-slate-400 font-medium">20 Questions</span>
+        </div>
+
+        <!-- Status Legend -->
+        <div class="grid grid-cols-2 gap-2.5 text-xs font-medium text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100">
+          <div class="flex items-center gap-2">
+            <span id="count-answered" class="w-6 h-6 rounded-lg bg-emerald-500 text-white font-bold flex items-center justify-center text-[11px]">0</span>
+            <span>Answered</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="count-not-answered" class="w-6 h-6 rounded-lg bg-rose-500 text-white font-bold flex items-center justify-center text-[11px]">0</span>
+            <span>Not Answered</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="count-marked" class="w-6 h-6 rounded-lg bg-purple-600 text-white font-bold flex items-center justify-center text-[11px]">0</span>
+            <span>Marked</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="count-not-visited" class="w-6 h-6 rounded-lg bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-[11px]">20</span>
+            <span>Not Visited</span>
+          </div>
+        </div>
+
+        <!-- 1-20 Palette Buttons Grid -->
+        <div id="palette-grid" class="grid grid-cols-5 gap-2.5 pt-1">
+          <!-- Dynamically populated buttons 1 to 20 -->
+        </div>
+
+        <div class="pt-3 border-t border-slate-100">
+          <button onclick="confirmSubmitModal()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-check-double"></i> Final Submit Assessment
+          </button>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Submit Confirmation Modal -->
+    <div id="modal-confirm" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+      <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 space-y-5 border border-slate-200">
+        <div class="flex items-center gap-3 border-b border-slate-100 pb-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Submit Assessment?</h3>
+            <p class="text-xs text-slate-500">Review your attempt summary before finalizing.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 text-center text-xs">
+          <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl">
+            <span class="block text-emerald-700 font-semibold">Answered</span>
+            <span id="modal-count-answered" class="text-lg font-extrabold text-emerald-900">0</span>
+          </div>
+          <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl">
+            <span class="block text-rose-700 font-semibold">Unanswered</span>
+            <span id="modal-count-unanswered" class="text-lg font-extrabold text-rose-900">20</span>
+          </div>
+          <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl">
+            <span class="block text-purple-700 font-semibold">Marked</span>
+            <span id="modal-count-marked" class="text-lg font-extrabold text-purple-900">0</span>
+          </div>
+        </div>
+
+        <div class="flex gap-3 pt-1">
+          <button onclick="closeConfirmModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition">
+            Return to Test
+          </button>
+          <button onclick="executeFinalSubmit()" class="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow transition">
+            Confirm & Submit
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Draggable On-Screen Calculator -->
+    <div id="cbt-calculator" class="hidden fixed bottom-6 right-6 z-40 w-72 bg-slate-900 text-white rounded-2xl shadow-2xl border border-slate-700 overflow-hidden select-none">
+      <!-- Draggable Title Bar -->
+      <div id="calc-drag-header" class="bg-slate-800 px-4 py-2.5 flex items-center justify-between cursor-move border-b border-slate-700">
+        <div class="flex items-center gap-2 text-xs font-bold text-slate-200">
+          <i class="fa-solid fa-calculator text-blue-400"></i>
+          <span>CBT Calculator</span>
+        </div>
+        <button onclick="toggleCalculator()" class="text-slate-400 hover:text-white transition p-1">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Display Screen -->
+      <div class="p-4 bg-slate-950 border-b border-slate-800 text-right font-mono">
+        <div id="calc-history" class="text-[11px] text-slate-400 h-4 overflow-hidden truncate"></div>
+        <div id="calc-display" class="text-2xl font-bold text-emerald-400 truncate mt-1">0</div>
+      </div>
+
+      <!-- Keypad Grid -->
+      <div class="p-3 grid grid-cols-4 gap-2 bg-slate-900 text-sm font-bold">
+        <button onclick="calcClear()" class="p-2.5 rounded-xl bg-rose-600/20 text-rose-400 hover:bg-rose-600/30 transition">AC</button>
+        <button onclick="calcBackspace()" class="p-2.5 rounded-xl bg-slate-800 text-amber-400 hover:bg-slate-700 transition"><i class="fa-solid fa-delete-left"></i></button>
+        <button onclick="calcPercent()" class="p-2.5 rounded-xl bg-slate-800 text-blue-400 hover:bg-slate-700 transition">%</button>
+        <button onclick="calcOperator('/')" class="p-2.5 rounded-xl bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 transition">÷</button>
+
+        <button onclick="calcDigit('7')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">7</button>
+        <button onclick="calcDigit('8')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">8</button>
+        <button onclick="calcDigit('9')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">9</button>
+        <button onclick="calcOperator('*')" class="p-2.5 rounded-xl bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 transition">×</button>
+
+        <button onclick="calcDigit('4')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">4</button>
+        <button onclick="calcDigit('5')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">5</button>
+        <button onclick="calcDigit('6')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">6</button>
+        <button onclick="calcOperator('-')" class="p-2.5 rounded-xl bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 transition">−</button>
+
+        <button onclick="calcDigit('1')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">1</button>
+        <button onclick="calcDigit('2')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">2</button>
+        <button onclick="calcDigit('3')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">3</button>
+        <button onclick="calcOperator('+')" class="p-2.5 rounded-xl bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 transition">+</button>
+
+        <button onclick="calcDigit('00')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition text-xs">00</button>
+        <button onclick="calcDigit('0')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">0</button>
+        <button onclick="calcDecimal()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">.</button>
+        <button onclick="calcEquals()" class="p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white shadow transition">=</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== POST-EXAM RESULTS & MARKSHEET SCREEN ==================== -->
+  <div id="screen-results" class="hidden min-h-screen bg-slate-100 py-8 px-4 sm:px-6">
+    <div class="max-w-5xl mx-auto space-y-8">
+
+      <!-- Action & Navigation Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-xl flex items-center justify-center font-bold text-lg">
+            <i class="fa-solid fa-award"></i>
+          </div>
+          <div>
+            <h2 class="font-bold text-slate-900 text-lg">Assessment Results</h2>
+            <p class="text-xs text-slate-500" id="result-timestamp">Completed on Date</p>
+          </div>
+        </div>
+
+        <!-- Action Buttons: Download PDF & Share -->
+        <div class="flex flex-wrap items-center gap-2">
+          <button onclick="downloadPDFMarksheet()" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow transition flex items-center gap-2">
+            <i class="fa-solid fa-file-pdf"></i>
+            <span>Download PDF Marksheet</span>
+          </button>
+          <button onclick="shareMarksheet()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow transition flex items-center gap-2">
+            <i class="fa-solid fa-share-nodes"></i>
+            <span>Share Marksheet</span>
+          </button>
+          <button onclick="restartExam()" class="px-4 py-2.5 border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl transition flex items-center gap-2">
+            <i class="fa-solid fa-rotate-right"></i>
+            <span>Retake Assessment</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Printable Marksheet Main Card -->
+      <div id="printable-pdf-area" class="bg-white rounded-2xl shadow-md border border-slate-200 overflow-hidden p-6 sm:p-8 space-y-8">
+        
+        <!-- Marksheet Header -->
+        <div class="border-b border-slate-200 pb-6 flex flex-wrap justify-between items-start gap-4">
+          <div>
+            <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded-md uppercase tracking-wider">Official Marksheet</span>
+            <h1 class="text-2xl font-bold text-slate-900 mt-2">Final Accounts Assessment</h1>
+            <p class="text-xs text-slate-500">Computer-Based Online Examination System</p>
+          </div>
+          <div class="text-right text-xs text-slate-600 space-y-1">
+            <p><strong>Candidate:</strong> <span id="res-candidate-name">Full Name</span></p>
+            <p><strong>Total Questions:</strong> 20</p>
+            <p><strong>Time Spent:</strong> <span id="res-time-spent">00:00</span></p>
+          </div>
+        </div>
+
+        <!-- Summary Statistics Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="bg-blue-50 border border-blue-200 p-4 rounded-xl text-center">
+            <span class="text-xs font-semibold text-blue-600 uppercase">Score Obtained</span>
+            <div class="text-3xl font-extrabold text-blue-900 mt-1">
+              <span id="res-score" class="font-bold">0</span> <span class="text-base text-blue-600 font-normal">/ 20</span>
+            </div>
+          </div>
+          <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center">
+            <span class="text-xs font-semibold text-emerald-600 uppercase">Percentage</span>
+            <div class="text-3xl font-extrabold text-emerald-900 mt-1" id="res-percentage">
+              0%
+            </div>
+          </div>
+          <div class="bg-indigo-50 border border-indigo-200 p-4 rounded-xl text-center">
+            <span class="text-xs font-semibold text-indigo-600 uppercase">Accuracy</span>
+            <div class="text-3xl font-extrabold text-indigo-900 mt-1" id="res-accuracy">
+              0%
+            </div>
+          </div>
+          <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl text-center">
+            <span class="text-xs font-semibold text-slate-600 uppercase">Result Status</span>
+            <div class="text-xl font-bold mt-2" id="res-status-badge">
+              PASSED
+            </div>
+          </div>
+        </div>
+
+        <!-- Detailed Breakdown stats -->
+        <div class="grid grid-cols-3 gap-3 text-center text-xs font-semibold">
+          <div class="p-3 bg-emerald-100/60 text-emerald-800 rounded-xl">
+            <i class="fa-solid fa-circle-check me-1"></i> Correct: <span id="res-correct-count">0</span>
+          </div>
+          <div class="p-3 bg-rose-100/60 text-rose-800 rounded-xl">
+            <i class="fa-solid fa-circle-xmark me-1"></i> Incorrect: <span id="res-incorrect-count">0</span>
+          </div>
+          <div class="p-3 bg-amber-100/60 text-amber-800 rounded-xl">
+            <i class="fa-solid fa-circle-minus me-1"></i> Unattempted: <span id="res-skipped-count">0</span>
+          </div>
+        </div>
+
+        <!-- Solutions & Detailed Explanations Section -->
+        <div class="pt-6 border-t border-slate-200 space-y-6">
+          <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-file-lines text-blue-600"></i> Detailed Question Analysis & Explanations
+          </h3>
+
+          <div id="review-questions-container" class="space-y-6">
+            <!-- Dynamically generated list of 20 review questions with detailed steps -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== SHARE MODAL / CLIPBOARD FALLBACK ==================== -->
+  <div id="modal-share" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 space-y-5 border border-slate-200">
+      <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-share-nodes text-emerald-600"></i> Share Marksheet
+        </h3>
+        <button onclick="closeShareModal()" class="text-slate-400 hover:text-slate-600 text-sm">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <p class="text-xs text-slate-600">Copy your result summary below or use direct sharing options:</p>
+        <textarea id="share-text-area" rows="5" readonly class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-700 focus:outline-none"></textarea>
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="copyShareText()" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow transition flex items-center justify-center gap-1.5">
+          <i class="fa-regular fa-copy"></i> Copy to Clipboard
+        </button>
+        <button onclick="closeShareModal()" class="px-4 py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold rounded-xl transition">
+          Close
+        </button>
+      </div>
+      <p id="share-toast" class="text-xs text-emerald-600 font-semibold text-center hidden">
+        <i class="fa-solid fa-circle-check me-1"></i> Copied to clipboard!
+      </p>
+    </div>
+  </div>
+
+
+  <!-- ==================== APPLICATION LOGIC & QUESTION BANK ==================== -->
+  <script>
+    // ----------------------------------------------------------------------
+    // 30 SCENARIO-BASED FINAL ACCOUNTS QUESTION BANK (NO CONCEPT TERMS IN TEXT)
+    // ----------------------------------------------------------------------
+    const QUESTION_BANK = [
+      {
+        id: 1,
+        question: "Ravi Traders paid Rent of ₹6,000 during the financial year as shown in the Trial Balance. Rent for 2 months @ ₹500 per month remains unpaid at year-end. What total Rent expense should be debited to the Profit & Loss Account?",
+        options: ["₹6,000", "₹7,000", "₹5,000", "₹1,000"],
+        correctIndex: 1, // ₹7,000
+        concept: "Accrual Adjustment",
+        explanation: "Total Rent Expense = Cash Paid (₹6,000) + Outstanding Rent for 2 months (2 × ₹500 = ₹1,000) = ₹7,000."
+      },
+      {
+        id: 2,
+        question: "Mehta & Co. shows Furniture at ₹20,000 in the Trial Balance. Depreciation is to be provided at 10% per annum. What net amount will appear for Furniture under Non-current Assets in the Balance Sheet?",
+        options: ["₹20,000", "₹2,000", "₹18,000", "₹22,000"],
+        correctIndex: 2, // ₹18,000
+        concept: "Depreciation Netting",
+        explanation: "Depreciation = 10% of ₹20,000 = ₹2,000. Net carrying value in Balance Sheet = ₹20,000 - ₹2,000 = ₹18,000."
+      },
+      {
+        id: 3,
+        question: "Ravi Traders valued its Closing Stock at the end of the year at a Cost of ₹20,000. However, its Net Realisable Value (Market Value) is determined to be ₹18,000. At what figure should Closing Stock be presented in the Final Accounts?",
+        options: ["₹20,000", "₹18,000", "₹38,000", "₹2,000"],
+        correctIndex: 1, // ₹18,000
+        concept: "Prudence & Inventory Valuation",
+        explanation: "Closing Stock is valued at Cost (₹20,000) or Net Realisable Value (₹18,000), whichever is lower. Hence, ₹18,000 is recorded."
+      },
+      {
+        id: 4,
+        question: "The proprietor of Apex Industries Ltd. withdrew ₹10,000 cash from the business bank account for personal household expenses. How is this transaction reflected in the Balance Sheet?",
+        options: ["Deducted from Capital on Liabilities side", "Added to Net Profit in P&L Account", "Shown as a Current Asset", "Debited directly to Trading Account"],
+        correctIndex: 0, // Deducted from Capital
+        concept: "Owner Drawings & Capital Reduction",
+        explanation: "Personal withdrawals reduce equity/capital. Drawings of ₹10,000 are deducted from Opening Capital on the Liabilities side."
+      },
+      {
+        id: 5,
+        question: "Mehta & Co.'s Trial Balance reflects Wages of ₹8,000 and Salaries of ₹12,000. How are these two expense items reported in the Final Accounts?",
+        options: ["Both in Profit & Loss Account", "Both in Trading Account", "Wages in Trading Account & Salaries in P&L Account", "Wages in P&L Account & Salaries in Trading Account"],
+        correctIndex: 2, // Wages Trading, Salaries P&L
+        concept: "Direct vs Indirect Cost Classification",
+        explanation: "Wages are direct manufacturing costs charged to Trading A/c; Salaries are indirect administrative expenses charged to Profit & Loss A/c."
+      },
+      {
+        id: 6,
+        question: "Ravi Traders paid an Insurance premium of ₹8,000 during the year. Inspection shows that ₹2,000 of this payment relates to the next financial year. What amounts appear in P&L and Balance Sheet?",
+        options: ["P&L ₹8,000; Balance Sheet ₹0", "P&L ₹6,000; Current Asset ₹2,000", "P&L ₹10,000; Liability ₹2,000", "P&L ₹2,000; Current Asset ₹6,000"],
+        correctIndex: 1, // P&L ₹6,000; Current Asset ₹2,000
+        concept: "Prepaid Expense Accounting",
+        explanation: "Net Insurance Expense in P&L = ₹8,000 - ₹2,000 (prepaid) = ₹6,000. Unexpired insurance of ₹2,000 is shown as a Current Asset."
+      },
+      {
+        id: 7,
+        question: "Apex Industries Ltd. recorded total Gross Sales of ₹6,73,000 and Sales Returns of ₹20,000 for the year. What figure of Net Sales is credited to the Trading Account?",
+        options: ["₹6,93,000", "₹6,73,000", "₹6,53,000", "₹6,50,000"],
+        correctIndex: 2, // ₹6,53,000
+        concept: "Net Turnover Calculation",
+        explanation: "Net Sales credited to Trading A/c = Gross Sales (₹6,73,000) - Sales Returns (₹20,000) = ₹6,53,000."
+      },
+      {
+        id: 8,
+        question: "Mehta & Co. paid Carriage Inward of ₹10,000 on goods purchased and Carriage Outward of ₹5,000 on goods sold. How are these items placed in the Financial Statements?",
+        options: ["Both debited to P&L Account", "Both debited to Trading Account", "Carriage Inward in Trading A/c & Carriage Outward in P&L A/c", "Carriage Inward in P&L A/c & Carriage Outward in Trading A/c"],
+        correctIndex: 2,
+        concept: "Carriage Expense Allocation",
+        explanation: "Carriage Inward is a direct cost added to purchases in Trading A/c. Carriage Outward is a selling distribution expense debited to P&L A/c."
+      },
+      {
+        id: 9,
+        question: "Ravi Traders has Sundry Debtors of ₹1,20,000. Further Bad Debts to be written off are ₹3,000. A Provision for Doubtful Debts is to be maintained @ 5% on remaining debtors. What is the new provision amount to be debited to P&L?",
+        options: ["₹6,000", "₹5,850", "₹6,150", "₹3,000"],
+        correctIndex: 1, // ₹5,850
+        concept: "Provision for Doubtful Debts",
+        explanation: "Net Debtors after bad debts = ₹1,20,000 - ₹3,000 = ₹1,17,000. Provision @ 5% = 5% of ₹1,17,000 = ₹5,850."
+      },
+      {
+        id: 10,
+        question: "Mehta & Co.'s Trial Balance shows Discount Allowed of ₹5,000 and Discount Received of ₹7,000. How are these displayed in the Profit & Loss Account?",
+        options: ["Net ₹2,000 on Credit side", "Discount Allowed ₹5,000 on Debit side & Discount Received ₹7,000 on Credit side", "Both on Debit side totaling ₹12,000", "Both on Credit side"],
+        correctIndex: 1,
+        concept: "Gross Financial Income & Expense",
+        explanation: "Discount Allowed is a financial expense (debit side of P&L), while Discount Received is revenue income (credit side of P&L)."
+      },
+      {
+        id: 11,
+        question: "Apex Industries Ltd. has a 12% Bank Loan of ₹1,00,000 and a Credit Bank Balance (Overdraft) of ₹50,000. How are these presented on the Liabilities side of the Balance Sheet?",
+        options: ["Net Bank Balance of ₹50,000", "Bank Loan ₹1,00,000 under Non-current Liabilities & Bank Overdraft ₹50,000 under Current Liabilities", "Bank Loan ₹1,00,000 and Asset ₹50,000", "Total Liability of ₹1,50,000 under Capital"],
+        correctIndex: 1,
+        concept: "Liability Classification",
+        explanation: "Bank Loan is a long-term liability (₹1,00,000) and Bank Overdraft (credit bank balance ₹50,000) is disclosed as a short-term current liability."
+      },
+      {
+        id: 12,
+        question: "Ravi Traders owns Building valued at ₹2,00,000 (Depreciation @ 5%) and Machinery valued at ₹1,50,000 (Depreciation @ 10%). What total depreciation charge is debited to the Profit & Loss Account?",
+        options: ["₹25,000", "₹15,000", "₹10,000", "₹20,000"],
+        correctIndex: 0, // ₹25,000
+        concept: "Depreciation Aggregation",
+        explanation: "Building Dep = 5% of ₹2,00,000 = ₹10,000. Machinery Dep = 10% of ₹1,50,000 = ₹15,000. Total Depreciation = ₹10,000 + ₹15,000 = ₹25,000."
+      },
+      {
+        id: 13,
+        question: "Apex Industries Ltd. had Opening Stock of ₹1,00,000, Total Purchases of ₹7,00,000, and Closing Stock of ₹2,40,000. What is the Cost of Goods Sold (COGS)?",
+        options: ["₹5,60,000", "₹8,00,000", "₹10,40,000", "₹6,60,000"],
+        correctIndex: 0, // ₹5,60,000
+        concept: "Cost of Goods Sold Equation",
+        explanation: "COGS = Opening Stock (₹1,00,000) + Purchases (₹7,00,000) - Closing Stock (₹2,40,000) = ₹5,60,000."
+      },
+      {
+        id: 14,
+        question: "Mehta & Co. shows Property, Plant & Equipment at cost of ₹12,00,000 with Opening Accumulated Depreciation of ₹2,00,000. Current year depreciation is ₹50,000. What net book value is reported in the Balance Sheet?",
+        options: ["₹10,00,000", "₹9,50,000", "₹12,00,000", "₹11,50,000"],
+        correctIndex: 1, // ₹9,50,000
+        concept: "Net Fixed Asset Carrying Value",
+        explanation: "Total Accumulated Depreciation = ₹2,00,000 + ₹50,000 = ₹2,50,000. Net Book Value = ₹12,00,000 - ₹2,50,000 = ₹9,50,000."
+      },
+      {
+        id: 15,
+        question: "Apex Industries Ltd. recorded a Right-of-Use (ROU) Asset of ₹3,00,000 with annual depreciation of ₹30,000. What is the net carrying amount of this asset at year-end?",
+        options: ["Non-current Asset at ₹2,70,000", "Current Asset at ₹3,00,000", "Expensed fully in P&L at ₹3,00,000", "Off-balance sheet memorandum item"],
+        correctIndex: 0, // ₹2,70,000
+        concept: "Lease Asset Carrying Amount",
+        explanation: "The Right-of-Use Asset is reported under Non-current Assets at cost less depreciation = ₹3,00,000 - ₹30,000 = ₹2,70,000."
+      },
+      {
+        id: 16,
+        question: "Ravi Traders issued 10% Debentures of ₹5,00,000. Interest paid during the financial year was ₹25,000. What amount of interest remains outstanding to be accrued in Final Accounts?",
+        options: ["₹50,000", "₹25,000", "₹0", "₹10,000"],
+        correctIndex: 1, // ₹25,000
+        concept: "Debenture Interest Accrual",
+        explanation: "Total Annual Interest = 10% of ₹5,00,000 = ₹50,000. Paid = ₹25,000. Outstanding interest to accrue = ₹50,000 - ₹25,000 = ₹25,000."
+      },
+      {
+        id: 17,
+        question: "Apex Industries Ltd. reports Trade Receivables of ₹3,50,000. Bad debts during the year (already written off) were ₹10,000. A 5% provision for doubtful debts is required on receivables. What is net Trade Receivables on the Balance Sheet?",
+        options: ["₹3,50,000", "₹3,32,500", "₹3,40,000", "₹3,22,500"],
+        correctIndex: 1, // ₹3,32,500
+        concept: "Net Receivables Valuation",
+        explanation: "Receivables balance = ₹3,50,000. Provision required = 5% of ₹3,50,000 = ₹17,500. Net Trade Receivables = ₹3,50,000 - ₹17,500 = ₹3,32,500."
+      },
+      {
+        id: 18,
+        question: "Mehta & Co. incurred a Loss on Sale of Investments of ₹1,20,000 and paid Dividend of ₹60,000. How are these two transactions categorized?",
+        options: [
+          "Loss on sale is a Non-operating expense in P&L; Dividend paid is an Appropriation of Profit",
+          "Both are classified as Direct Operating Expenses",
+          "Dividend paid is an operating expense; Loss on sale is ignored",
+          "Both are added directly to Sales revenue"
+        ],
+        correctIndex: 0,
+        concept: "Expense vs Profit Appropriation",
+        explanation: "Loss on sale of investments is a non-operating expense debited to P&L. Dividend paid is an appropriation of accumulated profits, not an expense."
+      },
+      {
+        id: 19,
+        question: "Apex Industries Ltd. estimates current year Income Tax liability to be ₹1,20,000. How is this recorded in the financial statements?",
+        options: [
+          "Debited to Profit & Loss Statement & shown under Current Liabilities",
+          "Credited to Profit & Loss Statement",
+          "Deducted from Property, Plant & Equipment",
+          "Added to General Reserve in Equity"
+        ],
+        correctIndex: 0,
+        concept: "Income Tax Provision Accounting",
+        explanation: "Tax provision is an expense debited to P&L Statement and recognized as a short-term provision under Current Liabilities on the Balance Sheet."
+      },
+      {
+        id: 20,
+        question: "Ravi Traders has General Reserve of ₹2,00,000 and Retained Earnings (P&L Cr balance) of ₹1,00,000. Net Profit for current year is ₹50,000. What is total Reserves & Surplus?",
+        options: ["₹3,00,000", "₹3,50,000", "₹2,50,000", "₹2,00,000"],
+        correctIndex: 1, // ₹3,50,000
+        concept: "Reserves & Surplus Summation",
+        explanation: "Total Reserves & Surplus = General Reserve (₹2,00,000) + Opening Retained Earnings (₹1,00,000) + Current Net Profit (₹50,000) = ₹3,50,000."
+      },
+      {
+        id: 21,
+        question: "Mehta & Co.'s Trade Payables stand at ₹3,60,000. Goods worth ₹20,000 were returned to a supplier but no entry was recorded in the books. What is the adjusted Trade Payables figure?",
+        options: ["₹3,80,000", "₹3,60,000", "₹3,40,000", "₹3,20,000"],
+        correctIndex: 2, // ₹3,40,000
+        concept: "Unrecorded Purchase Return Rectification",
+        explanation: "Unrecorded purchase returns reduce liability to suppliers. Adjusted Trade Payables = ₹3,60,000 - ₹20,000 = ₹3,40,000."
+      },
+      {
+        id: 22,
+        question: "Apex Industries Ltd. holds Cash in Hand of ₹10,00, Bank Balance of ₹1,50,000, and Short-term Marketable Securities of ₹50,000. What is the total Cash & Cash Equivalents?",
+        options: ["₹1,60,000", "₹2,10,000", "₹1,50,000", "₹2,00,000"],
+        correctIndex: 1, // ₹2,10,000
+        concept: "Cash Equivalents Aggregation",
+        explanation: "Cash & Cash Equivalents = Cash (₹10,000) + Bank (₹1,50,000) + Marketable Securities (₹50,000) = ₹2,10,000."
+      },
+      {
+        id: 23,
+        question: "Ravi Traders holds Investments of ₹3,70,000. Interest accrued but not yet received on these investments is ₹15,000. Where is this accrued interest presented in the Balance Sheet?",
+        options: ["Added to Capital", "Other Current Assets", "Current Liabilities", "Deducted from Investments"],
+        correctIndex: 1, // Other Current Assets
+        concept: "Accrued Income Presentation",
+        explanation: "Interest earned but not received is an asset expected to be realized within 12 months, disclosed under Other Current Assets."
+      },
+      {
+        id: 24,
+        question: "Mehta & Co. pays Manager's Commission at 10% on Net Profit after charging such commission. Net Profit before commission is ₹1,10,000. What is the Commission amount?",
+        options: ["₹11,000", "₹10,000", "₹1,100", "₹9,000"],
+        correctIndex: 1, // ₹10,000
+        concept: "Commission After Charging Formula",
+        explanation: "Commission = Net Profit × [Rate / (100 + Rate)] = ₹1,10,000 × (10 / 110) = ₹10,000."
+      },
+      {
+        id: 25,
+        question: "Apex Industries Ltd. purchased Plant & Machinery for ₹5,00,000. Installation expenses were ₹50,000, and trial run costs were ₹10,000. What is the initial capitalized cost of Plant & Machinery?",
+        options: ["₹5,00,000", "₹5,50,000", "₹5,60,000", "₹5,10,000"],
+        correctIndex: 2, // ₹5,60,000
+        concept: "Asset Cost Capitalization",
+        explanation: "All direct costs incurred to bring an asset to its working condition (Purchase + Installation + Trial run) are capitalized = ₹5,00,000 + ₹50,000 + ₹10,000 = ₹5,60,000."
+      },
+      {
+        id: 26,
+        question: "Ravi Traders distributed goods worth ₹5,00,0 as free samples for marketing. How is this transaction treated in Trading Account and Profit & Loss Account?",
+        options: [
+          "Added to Sales and debited to P&L",
+          "Deducted from Purchases in Trading A/c and debited as Sales Promotion in P&L A/c",
+          "Ignored in financial statements",
+          "Credited to Profit & Loss Account"
+        ],
+        correctIndex: 1,
+        concept: "Goods Distributed as Free Samples",
+        explanation: "Cost of goods given as samples reduces purchase cost in Trading A/c (or credited to Trading A/c) and is debited as Sales Promotion/Advertisement in P&L A/c."
+      },
+      {
+        id: 27,
+        question: "Mehta & Co. suffered a warehouse fire destroying stock worth ₹40,000. The insurance company admitted a claim for ₹30,000. What net amount is debited to P&L as loss?",
+        options: ["₹40,000", "₹30,000", "₹10,000", "₹70,000"],
+        correctIndex: 2, // ₹10,000
+        concept: "Abnormal Loss Netting",
+        explanation: "Total Loss = ₹40,000. Insurance Claim Recoverable = ₹30,000 (Current Asset). Net unrecovered loss charged to P&L = ₹40,000 - ₹30,000 = ₹10,000."
+      },
+      {
+        id: 28,
+        question: "Apex Industries Ltd. sent goods costing ₹15,000 to a customer on Approval basis at invoice price of ₹20,000, recorded as Sales. At year-end, no approval was received. What adjustments are made?",
+        options: [
+          "Deduct ₹20,000 from Sales/Debtors and add ₹15,000 to Closing Stock",
+          "Deduct ₹15,000 from Sales only",
+          "Add ₹20,000 to Closing Stock",
+          "No adjustment required"
+        ],
+        correctIndex: 0,
+        concept: "Goods Sent on Approval Basis",
+        explanation: "Unconfirmed sale on approval is reversed by deducting selling price (₹20,000) from Sales & Debtors, and adding cost price (₹15,000) to Closing Inventory."
+      },
+      {
+        id: 29,
+        question: "Ravi Traders had Opening Prepaid Rent of ₹3,000. Cash Rent paid during the year was ₹24,000. Closing Prepaid Rent is ₹4,000. What is the Rent expense charged to P&L?",
+        options: ["₹24,000", "₹23,000", "₹25,000", "₹27,000"],
+        correctIndex: 1, // ₹23,000
+        concept: "Period Expense Adjustment Formula",
+        explanation: "Rent Expense = Opening Prepaid (₹3,000) + Cash Paid (₹24,000) - Closing Prepaid (₹4,000) = ₹23,000."
+      },
+      {
+        id: 30,
+        question: "Mehta & Co. started the year with Capital of ₹5,00,000. Additional Capital introduced was ₹1,00,000. Net Profit earned was ₹80,000, and Drawings were ₹30,000. What is Closing Capital?",
+        options: ["₹6,50,000", "₹6,80,000", "₹6,20,000", "₹5,80,000"],
+        correctIndex: 0, // ₹6,50,000
+        concept: "Capital Movement Equation",
+        explanation: "Closing Capital = Opening Capital (₹5,00,000) + Additional Capital (₹1,00,000) + Net Profit (₹80,000) - Drawings (₹30,000) = ₹6,50,000."
+      }
+    ];
+
+
+    // ----------------------------------------------------------------------
+    // GLOBAL STATE VARIABLES
+    // ----------------------------------------------------------------------
+    let candidateName = "";
+    let activeQuestions = []; // 20 randomized questions selected for this candidate session
+    let userAnswers = new Array(20).fill(null);
+    let questionStatuses = new Array(20).fill('not-visited'); // 'not-visited', 'not-answered', 'answered', 'marked', 'answered-marked'
+    let currentQIndex = 0;
+    
+    // Timer variables
+    const TOTAL_EXAM_TIME = 30 * 60; // 30 mins in seconds
+    let secondsRemaining = TOTAL_EXAM_TIME;
+    let timerInterval = null;
+    let timeSpentSeconds = 0;
+
+    // Fisher-Yates Shuffle Function
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+
+    // ----------------------------------------------------------------------
+    // STEP 1: EXAM INITIALIZATION & SHUFFLING
+    // ----------------------------------------------------------------------
+    function startAssessment() {
+      const nameInput = document.getElementById('candidate-name-input');
+      const errEl = document.getElementById('entry-error');
+      const nameVal = nameInput.value.trim();
+
+      if (!nameVal) {
+        errEl.classList.remove('hidden');
+        nameInput.focus();
+        return;
+      }
+      errEl.classList.add('hidden');
+      candidateName = nameVal;
+
+      // 1. Pick 20 questions randomly from 30
+      const shuffledBank = shuffleArray(QUESTION_BANK);
+      const raw20 = shuffledBank.slice(0, 20);
+
+      // 2. Shuffle options for each question while keeping track of the correct answer index
+      activeQuestions = raw20.map((qItem, idx) => {
+        const originalOptions = [...qItem.options];
+        const correctText = originalOptions[qItem.correctIndex];
+        
+        // Shuffle the 4 options
+        const shuffledOpts = shuffleArray(originalOptions);
+        const newCorrectIdx = shuffledOpts.indexOf(correctText);
+
+        return {
+          displayNum: idx + 1,
+          originalId: qItem.id,
+          question: qItem.question,
+          options: shuffledOpts,
+          correctIndex: newCorrectIdx,
+          concept: qItem.concept,
+          explanation: qItem.explanation
+        };
+      });
+
+      // Reset exam state
+      userAnswers = new Array(20).fill(null);
+      questionStatuses = new Array(20).fill('not-visited');
+      currentQIndex = 0;
+      secondsRemaining = TOTAL_EXAM_TIME;
+      timeSpentSeconds = 0;
+
+      // Update UI elements
+      document.getElementById('display-candidate-name').textContent = candidateName;
+      document.getElementById('screen-entry').classList.add('hidden');
+      document.getElementById('screen-cbt').classList.remove('hidden');
+
+      // Build Palette & Load First Question
+      renderPaletteGrid();
+      loadQuestion(0);
+      startTimer();
+    }
+
+
+    // ----------------------------------------------------------------------
+    // STEP 2: TIMER LOGIC
+    // ----------------------------------------------------------------------
+    function startTimer() {
+      clearInterval(timerInterval);
+      const timerDisplay = document.getElementById('timer-display');
+      const timerBox = document.getElementById('timer-box');
+
+      timerInterval = setInterval(() => {
+        secondsRemaining--;
+        timeSpentSeconds++;
+
+        if (secondsRemaining <= 0) {
+          clearInterval(timerInterval);
+          executeFinalSubmit();
+          return;
+        }
+
+        const mins = Math.floor(secondsRemaining / 60);
+        const secs = secondsRemaining % 60;
+        const formattedMins = String(mins).padStart(2, '0');
+        const formattedSecs = String(secs).padStart(2, '0');
+        timerDisplay.textContent = `${formattedMins}:${formattedSecs}`;
+
+        // Red pulse warning when less than 5 minutes remain
+        if (secondsRemaining <= 300) {
+          timerBox.className = "bg-rose-950 border border-rose-600 px-4 py-1.5 rounded-xl flex items-center gap-2 font-mono text-lg font-bold text-rose-400 animate-pulse";
+        }
+      }, 1000);
+    }
+
+
+    // ----------------------------------------------------------------------
+    // STEP 3: CBT QUESTION RENDER & NAVIGATION
+    // ----------------------------------------------------------------------
+    function loadQuestion(index) {
+      currentQIndex = index;
+
+      // Update status if first visit
+      if (questionStatuses[index] === 'not-visited') {
+        questionStatuses[index] = 'not-answered';
+      }
+
+      const q = activeQuestions[index];
+
+      // Question badge & text
+      document.getElementById('current-q-badge').textContent = `Question ${index + 1} of 20`;
+      document.getElementById('question-text').textContent = `${index + 1}. ${q.question}`;
+
+      // Render Options
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+
+      const labels = ['A', 'B', 'C', 'D'];
+      q.options.forEach((optText, optIdx) => {
+        const isSelected = userAnswers[index] === optIdx;
+
+        const optCard = document.createElement('label');
+        optCard.className = `flex items-center gap-3.5 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+          isSelected 
+            ? 'bg-blue-50/80 border-blue-600 text-blue-900 shadow-sm' 
+            : 'bg-slate-50 border-slate-200 hover:border-slate-300 hover:bg-slate-100 text-slate-800'
+        }`;
+
+        optCard.innerHTML = `
+          <input type="radio" name="cbt-option" value="${optIdx}" ${isSelected ? 'checked' : ''} 
+            onchange="selectOption(${optIdx})" class="sr-only">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 transition-colors ${
+            isSelected ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-700'
+          }">
+            ${labels[optIdx]}
+          </div>
+          <div class="text-sm font-medium leading-normal">${optText}</div>
+        `;
+        optionsContainer.appendChild(optCard);
+      });
+
+      // Update Prev / Next buttons state
+      document.getElementById('btn-prev-q').disabled = (index === 0);
+      const saveNextBtn = document.getElementById('btn-save-next');
+      if (index === 19) {
+        saveNextBtn.querySelector('span').textContent = "Save & Review";
+      } else {
+        saveNextBtn.querySelector('span').textContent = "Save & Next";
+      }
+
+      updatePaletteUI();
+    }
+
+    function selectOption(optIndex) {
+      userAnswers[currentQIndex] = optIndex;
+      // Re-render question cards to show active selection border
+      loadQuestion(currentQIndex);
+    }
+
+    function saveAndNext() {
+      if (userAnswers[currentQIndex] !== null) {
+        if (questionStatuses[currentQIndex] === 'marked') {
+          questionStatuses[currentQIndex] = 'answered-marked';
+        } else {
+          questionStatuses[currentQIndex] = 'answered';
+        }
+      }
+
+      if (currentQIndex < 19) {
+        loadQuestion(currentQIndex + 1);
+      } else {
+        updatePaletteUI();
+        confirmSubmitModal();
+      }
+    }
+
+    function markForReviewAndNext() {
+      if (userAnswers[currentQIndex] !== null) {
+        questionStatuses[currentQIndex] = 'answered-marked';
+      } else {
+        questionStatuses[currentQIndex] = 'marked';
+      }
+
+      if (currentQIndex < 19) {
+        loadQuestion(currentQIndex + 1);
+      } else {
+        updatePaletteUI();
+        confirmSubmitModal();
+      }
+    }
+
+    function clearResponse() {
+      userAnswers[currentQIndex] = null;
+      questionStatuses[currentQIndex] = 'not-answered';
+      loadQuestion(currentQIndex);
+    }
+
+    function navigateQuestion(direction) {
+      const target = currentQIndex + direction;
+      if (target >= 0 && target < 20) {
+        loadQuestion(target);
+      }
+    }
+
+
+    // ----------------------------------------------------------------------
+    // STEP 4: PALETTE RENDER & STATUS COUNTS
+    // ----------------------------------------------------------------------
+    function renderPaletteGrid() {
+      const grid = document.getElementById('palette-grid');
+      grid.innerHTML = '';
+
+      for (let i = 0; i < 20; i++) {
+        const btn = document.createElement('button');
+        btn.id = `palette-btn-${i}`;
+        btn.onclick = () => loadQuestion(i);
+        btn.className = `h-10 rounded-xl font-bold text-xs flex items-center justify-center transition-all border`;
+        grid.appendChild(btn);
+      }
+      updatePaletteUI();
+    }
+
+    function updatePaletteUI() {
+      let countAns = 0;
+      let countNotAns = 0;
+      let countMarked = 0;
+      let countNotVis = 0;
+
+      for (let i = 0; i < 20; i++) {
+        const btn = document.getElementById(`palette-btn-${i}`);
+        if (!btn) continue;
+
+        const st = questionStatuses[i];
+        const isCurrent = (i === currentQIndex);
+
+        let bgClass = "";
+        if (st === 'answered') {
+          bgClass = "bg-emerald-500 text-white border-emerald-600";
+          countAns++;
+        } else if (st === 'not-answered') {
+          bgClass = "bg-rose-500 text-white border-rose-600";
+          countNotAns++;
+        } else if (st === 'marked') {
+          bgClass = "bg-purple-600 text-white border-purple-700";
+          countMarked++;
+        } else if (st === 'answered-marked') {
+          bgClass = "bg-purple-600 text-white border-purple-700 relative after:content-['✓'] after:absolute after:top-0.5 after:right-1 after:text-[9px]";
+          countAns++;
+        } else { // not-visited
+          bgClass = "bg-slate-100 text-slate-700 border-slate-300 hover:bg-slate-200";
+          countNotVis++;
+        }
+
+        if (isCurrent) {
+          btn.className = `${bgClass} h-10 rounded-xl font-bold text-xs flex items-center justify-center border-2 border-blue-600 ring-2 ring-blue-400/50 scale-105 transition-all`;
+          btn.innerHTML = `${i + 1}`;
+        } else {
+          btn.className = `${bgClass} h-10 rounded-xl font-bold text-xs flex items-center justify-center transition-all`;
+          btn.innerHTML = `${i + 1}`;
+        }
+      }
+
+      document.getElementById('count-answered').textContent = countAns;
+      document.getElementById('count-not-answered').textContent = countNotAns;
+      document.getElementById('count-marked').textContent = countMarked;
+      document.getElementById('count-not-visited').textContent = countNotVis;
+    }
+
+
+    // ----------------------------------------------------------------------
+    // STEP 5: SUBMIT MODAL & SCORING
+    // ----------------------------------------------------------------------
+    function confirmSubmitModal() {
+      let ansCount = 0;
+      let unansCount = 0;
+      let markedCount = 0;
+
+      for (let i = 0; i < 20; i++) {
+        if (userAnswers[i] !== null) ansCount++;
+        else unansCount++;
+        if (questionStatuses[i] === 'marked' || questionStatuses[i] === 'answered-marked') markedCount++;
+      }
+
+      document.getElementById('modal-count-answered').textContent = ansCount;
+      document.getElementById('modal-count-unanswered').textContent = unansCount;
+      document.getElementById('modal-count-marked').textContent = markedCount;
+
+      document.getElementById('modal-confirm').classList.remove('hidden');
+    }
+
+    function closeConfirmModal() {
+      document.getElementById('modal-confirm').classList.add('hidden');
+    }
+
+    function executeFinalSubmit() {
+      closeConfirmModal();
+      clearInterval(timerInterval);
+
+      // Hide Exam screen & Show Results
+      document.getElementById('screen-cbt').classList.add('hidden');
+      document.getElementById('screen-results').classList.remove('hidden');
+
+      // Calculate Statistics
+      let score = 0;
+      let correctCount = 0;
+      let incorrectCount = 0;
+      let skippedCount = 0;
+
+      activeQuestions.forEach((q, idx) => {
+        const uAns = userAnswers[idx];
+        if (uAns === null) {
+          skippedCount++;
+        } else if (uAns === q.correctIndex) {
+          score += 1;
+          correctCount++;
+        } else {
+          incorrectCount++;
+        }
+      });
+
+      const percentage = Math.round((score / 20) * 100);
+      const attempted = correctCount + incorrectCount;
+      const accuracy = attempted > 0 ? Math.round((correctCount / attempted) * 100) : 0;
+
+      // Populate Result Header
+      document.getElementById('res-candidate-name').textContent = candidateName;
+      const minsSpent = Math.floor(timeSpentSeconds / 60);
+      const secsSpent = timeSpentSeconds % 60;
+      document.getElementById('res-time-spent').textContent = `${minsSpent}m ${secsSpent}s`;
+      document.getElementById('result-timestamp').textContent = `Completed on ${new Date().toLocaleString()}`;
+
+      // Populate Score Grid
+      document.getElementById('res-score').textContent = score;
+      document.getElementById('res-percentage').textContent = `${percentage}%`;
+      document.getElementById('res-accuracy').textContent = `${accuracy}%`;
+      document.getElementById('res-correct-count').textContent = correctCount;
+      document.getElementById('res-incorrect-count').textContent = incorrectCount;
+      document.getElementById('res-skipped-count').textContent = skippedCount;
+
+      // Status Badge
+      const statusBadge = document.getElementById('res-status-badge');
+      if (percentage >= 50) {
+        statusBadge.className = "text-xl font-bold text-emerald-600";
+        statusBadge.textContent = "PASSED";
+      } else {
+        statusBadge.className = "text-xl font-bold text-rose-600";
+        statusBadge.textContent = "NEEDS IMPROVEMENT";
+      }
+
+      // Render Review Questions
+      renderReviewList();
+    }
+
+
+    // ----------------------------------------------------------------------
+    // STEP 6: RENDER REVIEW QUESTIONS & CONCEPT EXPLANATIONS
+    // ----------------------------------------------------------------------
+    function renderReviewList() {
+      const container = document.getElementById('review-questions-container');
+      container.innerHTML = '';
+
+      const labels = ['A', 'B', 'C', 'D'];
+
+      activeQuestions.forEach((q, idx) => {
+        const userAnsIndex = userAnswers[idx];
+        const isCorrect = (userAnsIndex === q.correctIndex);
+        const isSkipped = (userAnsIndex === null);
+
+        let statusBadgeHTML = "";
+        let borderClass = "";
+
+        if (isSkipped) {
+          statusBadgeHTML = `<span class="px-2.5 py-1 bg-amber-100 text-amber-800 font-bold text-xs rounded-md"><i class="fa-solid fa-circle-minus me-1"></i>Skipped</span>`;
+          borderClass = "border-slate-200";
+        } else if (isCorrect) {
+          statusBadgeHTML = `<span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 font-bold text-xs rounded-md"><i class="fa-solid fa-circle-check me-1"></i>Correct</span>`;
+          borderClass = "border-emerald-200 bg-emerald-50/20";
+        } else {
+          statusBadgeHTML = `<span class="px-2.5 py-1 bg-rose-100 text-rose-800 font-bold text-xs rounded-md"><i class="fa-solid fa-circle-xmark me-1"></i>Incorrect</span>`;
+          borderClass = "border-rose-200 bg-rose-50/20";
+        }
+
+        const item = document.createElement('div');
+        item.className = `p-5 rounded-xl border ${borderClass} space-y-4`;
+
+        item.innerHTML = `
+          <div class="flex flex-wrap items-start justify-between gap-2 border-b border-slate-200/60 pb-3">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-800 text-sm">Question ${idx + 1}</span>
+              <span class="px-2 py-0.5 bg-blue-100 text-blue-800 text-[11px] font-semibold rounded">${q.concept}</span>
+            </div>
+            <div>${statusBadgeHTML}</div>
+          </div>
+
+          <p class="text-slate-800 text-sm font-medium leading-relaxed">${q.question}</p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            ${q.options.map((optText, oIdx) => {
+              let optStyle = "bg-slate-50 border-slate-200 text-slate-700";
+              if (oIdx === q.correctIndex) {
+                optStyle = "bg-emerald-100 border-emerald-400 text-emerald-900 font-bold";
+              } else if (oIdx === userAnsIndex && !isCorrect) {
+                optStyle = "bg-rose-100 border-rose-300 text-rose-900 font-medium";
+              }
+              return `
+                <div class="p-2.5 rounded-lg border ${optStyle} flex items-center gap-2">
+                  <span class="w-5 h-5 rounded flex items-center justify-center font-bold text-[10px] ${oIdx === q.correctIndex ? 'bg-emerald-600 text-white' : 'bg-slate-200 text-slate-700'}">
+                    ${labels[oIdx]}
+                  </span>
+                  <span>${optText}</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="bg-blue-50/80 p-3.5 rounded-xl border border-blue-100 text-xs text-slate-700 space-y-1">
+            <div class="font-bold text-blue-900 flex items-center gap-1.5">
+              <i class="fa-solid fa-lightbulb text-amber-500"></i> Step-by-Step Concept Breakdown:
+            </div>
+            <p class="leading-relaxed text-slate-600">${q.explanation}</p>
+          </div>
+        `;
+
+        container.appendChild(item);
+      });
+    }
+
+
+    // ----------------------------------------------------------------------
+    // STEP 7: DOWNLOAD MARKSHEET AS PDF
+    // ----------------------------------------------------------------------
+    function downloadPDFMarksheet() {
+      const element = document.getElementById('printable-pdf-area');
+      const opt = {
+        margin:       [0.4, 0.4, 0.4, 0.4],
+        filename:     `${candidateName.replace(/\s+/g, '_')}_Final_Accounts_Marksheet.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
+
+      // Attempt html2pdf download
+      if (typeof html2pdf !== 'undefined') {
+        html2pdf().set(opt).from(element).save().catch(err => {
+          console.warn("html2pdf fallback to window.print", err);
+          window.print();
+        });
+      } else {
+        // Fallback to browser print dialog
+        window.print();
+      }
+    }
+
+
+    // ----------------------------------------------------------------------
+    // STEP 8: SHARE MARKSHEET
+    // ----------------------------------------------------------------------
+    function shareMarksheet() {
+      const score = document.getElementById('res-score').textContent;
+      const percentage = document.getElementById('res-percentage').textContent;
+      const timeSpent = document.getElementById('res-time-spent').textContent;
+
+      const summaryText = `🎓 Final Accounts Assessment Marksheet\n` +
+                          `Candidate Name: ${candidateName}\n` +
+                          `Score: ${score} / 20 (${percentage})\n` +
+                          `Time Taken: ${timeSpent}\n` +
+                          `Date: ${new Date().toLocaleDateString()}\n` +
+                          `Result: PASSED`;
+
+      if (navigator.share) {
+        navigator.share({
+          title: 'Final Accounts Assessment Marksheet',
+          text: summaryText,
+          url: window.location.href
+        }).catch(err => {
+          // If user cancels or share fails, open fallback share modal
+          openShareModal(summaryText);
+        });
+      } else {
+        openShareModal(summaryText);
+      }
+    }
+
+    function openShareModal(text) {
+      document.getElementById('share-text-area').value = text;
+      document.getElementById('share-toast').classList.add('hidden');
+      document.getElementById('modal-share').classList.remove('hidden');
+    }
+
+    function closeShareModal() {
+      document.getElementById('modal-share').classList.add('hidden');
+    }
+
+    function copyShareText() {
+      const copyText = document.getElementById('share-text-area');
+      copyText.select();
+      copyText.setSelectionRange(0, 99999);
+      
+      try {
+        document.execCommand('copy');
+      } catch(e) {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(copyText.value);
+        }
+      }
+
+      const toast = document.getElementById('share-toast');
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+
+    function restartExam() {
+      document.getElementById('cbt-calculator').classList.add('hidden');
+      document.getElementById('screen-results').classList.add('hidden');
+      document.getElementById('screen-entry').classList.remove('hidden');
+    }
+
+    // ----------------------------------------------------------------------
+    // ON-SCREEN CALCULATOR LOGIC & DRAG SUPPORT
+    // ----------------------------------------------------------------------
+    let calcCurrentInput = '0';
+    let calcPrevInput = null;
+    let calcOp = null;
+    let calcResetNext = false;
+
+    function toggleCalculator() {
+      const calcEl = document.getElementById('cbt-calculator');
+      calcEl.classList.toggle('hidden');
+    }
+
+    function updateCalcScreen() {
+      document.getElementById('calc-display').textContent = calcCurrentInput;
+      const opSymbols = { '+': '+', '-': '−', '*': '×', '/': '÷' };
+      document.getElementById('calc-history').textContent =
+        calcPrevInput !== null && calcOp ? `${calcPrevInput} ${opSymbols[calcOp]}` : '';
+    }
+
+    function calcDigit(digit) {
+      if (calcResetNext) {
+        calcCurrentInput = (digit === '00') ? '0' : digit;
+        calcResetNext = false;
+      } else if (calcCurrentInput === '0') {
+        calcCurrentInput = (digit === '00') ? '0' : digit;
+      } else if (calcCurrentInput.length < 14) {
+        calcCurrentInput += digit;
+      }
+      updateCalcScreen();
+    }
+
+    function calcDecimal() {
+      if (calcResetNext) {
+        calcCurrentInput = '0.';
+        calcResetNext = false;
+      } else if (!calcCurrentInput.includes('.')) {
+        calcCurrentInput += '.';
+      }
+      updateCalcScreen();
+    }
+
+    function calcClear() {
+      calcCurrentInput = '0';
+      calcPrevInput = null;
+      calcOp = null;
+      calcResetNext = false;
+      updateCalcScreen();
+    }
+
+    function calcBackspace() {
+      if (calcResetNext) return;
+      if (calcCurrentInput.length > 1) {
+        calcCurrentInput = calcCurrentInput.slice(0, -1);
+      } else {
+        calcCurrentInput = '0';
+      }
+      updateCalcScreen();
+    }
+
+    function calcPercent() {
+      const val = parseFloat(calcCurrentInput);
+      if (isNaN(val)) return;
+      if (calcPrevInput !== null && (calcOp === '+' || calcOp === '-')) {
+        calcCurrentInput = String(parseFloat(((calcPrevInput * val) / 100).toFixed(6)));
+      } else {
+        calcCurrentInput = String(parseFloat((val / 100).toFixed(6)));
+      }
+      updateCalcScreen();
+    }
+
+    function calcOperator(nextOp) {
+      const inputVal = parseFloat(calcCurrentInput);
+      if (calcOp && !calcResetNext) {
+        calcEquals();
+      }
+      calcPrevInput = parseFloat(calcCurrentInput);
+      calcOp = nextOp;
+      calcResetNext = true;
+      updateCalcScreen();
+    }
+
+    function calcEquals() {
+      if (calcOp === null || calcPrevInput === null) return;
+      const currentVal = parseFloat(calcCurrentInput);
+      let result = 0;
+
+      if (calcOp === '+') result = calcPrevInput + currentVal;
+      else if (calcOp === '-') result = calcPrevInput - currentVal;
+      else if (calcOp === '*') result = calcPrevInput * currentVal;
+      else if (calcOp === '/') {
+        if (currentVal === 0) {
+          calcCurrentInput = 'Error';
+          calcPrevInput = null;
+          calcOp = null;
+          calcResetNext = true;
+          updateCalcScreen();
+          return;
+        }
+        result = calcPrevInput / currentVal;
+      }
+
+      calcCurrentInput = String(parseFloat(result.toFixed(6)));
+      calcPrevInput = null;
+      calcOp = null;
+      calcResetNext = true;
+      updateCalcScreen();
+    }
+
+    // Enable Mouse & Touch Dragging on Calculator Header
+    (function initCalcDrag() {
+      const calcEl = document.getElementById('cbt-calculator');
+      const headerEl = document.getElementById('calc-drag-header');
+      let isDragging = false, startX = 0, startY = 0, origLeft = 0, origTop = 0;
+
+      function startDrag(clientX, clientY) {
+        isDragging = true;
+        const rect = calcEl.getBoundingClientRect();
+        calcEl.style.left = rect.left + 'px';
+        calcEl.style.top = rect.top + 'px';
+        calcEl.style.right = 'auto';
+        calcEl.style.bottom = 'auto';
+        startX = clientX;
+        startY = clientY;
+        origLeft = rect.left;
+        origTop = rect.top;
+      }
+
+      function onDrag(clientX, clientY) {
+        if (!isDragging) return;
+        const maxLeft = window.innerWidth - calcEl.offsetWidth;
+        const maxTop = window.innerHeight - calcEl.offsetHeight;
+        const newLeft = Math.min(Math.max(0, origLeft + (clientX - startX)), maxLeft);
+        const newTop = Math.min(Math.max(0, origTop + (clientY - startY)), maxTop);
+        calcEl.style.left = newLeft + 'px';
+        calcEl.style.top = newTop + 'px';
+      }
+
+      headerEl.addEventListener('mousedown', (e) => {
+        if (e.target.closest('button')) return;
+        startDrag(e.clientX, e.clientY);
+      });
+      document.addEventListener('mousemove', (e) => onDrag(e.clientX, e.clientY));
+      document.addEventListener('mouseup', () => { isDragging = false; });
+
+      headerEl.addEventListener('touchstart', (e) => {
+        if (e.target.closest('button')) return;
+        const touch = e.touches[0];
+        startDrag(touch.clientX, touch.clientY);
+      }, { passive: true });
+      document.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const touch = e.touches[0];
+        onDrag(touch.clientX, touch.clientY);
+      }, { passive: true });
+      document.addEventListener('touchend', () => { isDragging = false; });
+    })();
+  </script>
+</body>
+</html>
