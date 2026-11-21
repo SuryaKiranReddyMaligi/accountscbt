@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Final Accounts CBT Assessment</title>
+  <title>Commerce & Taxation CBT Portal</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Font Awesome Icons -->
@@ -49,14 +49,14 @@
 
   <!-- ==================== REGISTRATION SCREEN ==================== -->
   <div id="screen-entry" class="min-h-screen flex items-center justify-center p-4 sm:p-6 bg-slate-900 bg-opacity-95 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:16px_16px]">
-    <div class="bg-white w-full max-w-xl rounded-2xl shadow-2xl overflow-hidden border border-slate-200 transition-all">
+    <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden border border-slate-200 transition-all">
       <!-- Header Banner -->
       <div class="bg-gradient-to-r from-blue-700 via-indigo-700 to-slate-800 p-6 text-white text-center">
         <div class="inline-flex items-center justify-center w-14 h-14 bg-white/10 rounded-2xl mb-3 backdrop-blur-sm border border-white/20">
-          <i class="fa-solid me-0 fa-file-invoice-dollar text-2xl text-blue-200"></i>
+          <i class="fa-solid me-0 fa-graduation-cap text-2xl text-blue-200"></i>
         </div>
-        <h1 class="text-2xl font-bold tracking-tight">Final Accounts Assessment</h1>
-        <p class="text-xs text-blue-200 mt-1">Computer-Based Examination Portal • Financial Accounting</p>
+        <h1 class="text-2xl font-bold tracking-tight">Commerce & Taxation CBT Portal</h1>
+        <p class="text-xs text-blue-200 mt-1">Select Your Paper • Income Tax • GST • Financial Accounts</p>
       </div>
 
       <!-- Instructions & Candidate Details Form -->
@@ -74,6 +74,58 @@
           </div>
           <p id="entry-error" class="text-xs text-rose-500 mt-1.5 hidden font-medium">
             <i class="fa-solid fa-circle-exclamation me-1"></i>Please enter candidate's full name to start test.
+          </p>
+        </div>
+
+        <!-- Paper Selection Cards -->
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="block text-sm font-semibold text-slate-700">
+              Select Examination Paper <span class="text-rose-500">*</span>
+            </label>
+            <button type="button" onclick="resetQuestionMemory()" class="text-[11px] font-semibold text-slate-500 hover:text-rose-600 transition flex items-center gap-1" title="Clear saved non-repeat history">
+              <i class="fa-solid fa-clock-rotate-left"></i> Reset Question Memory
+            </button>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="subject-selector-grid">
+            <button type="button" onclick="selectSubject('incometax')" id="sub-card-incometax"
+              class="subject-card text-left p-4 rounded-xl border-2 border-blue-600 bg-blue-50/70 transition-all">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center text-sm">
+                  <i class="fa-solid fa-landmark"></i>
+                </span>
+                <span id="mem-badge-incometax" class="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">0/30 Used</span>
+              </div>
+              <div class="font-bold text-slate-900 text-sm">Paper I: Income Tax</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Heads, Deductions, TDS & Tax</div>
+            </button>
+
+            <button type="button" onclick="selectSubject('gst')" id="sub-card-gst"
+              class="subject-card text-left p-4 rounded-xl border-2 border-slate-200 bg-slate-50 hover:border-slate-300 transition-all">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center text-sm">
+                  <i class="fa-solid fa-receipt"></i>
+                </span>
+                <span id="mem-badge-gst" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-700">0/30 Used</span>
+              </div>
+              <div class="font-bold text-slate-900 text-sm">Paper II: GST</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Supply, ITC, RCM & Returns</div>
+            </button>
+
+            <button type="button" onclick="selectSubject('accounts')" id="sub-card-accounts"
+              class="subject-card text-left p-4 rounded-xl border-2 border-slate-200 bg-slate-50 hover:border-slate-300 transition-all">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-sm">
+                  <i class="fa-solid fa-book-journal-whills"></i>
+                </span>
+                <span id="mem-badge-accounts" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-700">0/30 Used</span>
+              </div>
+              <div class="font-bold text-slate-900 text-sm">Paper III: Accounts</div>
+              <div class="text-[11px] text-slate-500 mt-0.5">Final A/c, BRS, Ratios & Corp</div>
+            </button>
+          </div>
+          <p id="memory-toast" class="text-xs text-emerald-600 mt-1.5 hidden font-medium">
+            <i class="fa-solid fa-circle-check me-1"></i>Saved question history cleared. All questions are fresh!
           </p>
         </div>
 
@@ -103,9 +155,9 @@
             <i class="fa-solid fa-clipboard-list text-blue-600"></i> Examination Guidelines:
           </h3>
           <ul class="space-y-1.5 list-disc list-inside text-slate-600">
-            <li>Questions & option orders are randomly assigned per candidate session.</li>
+            <li>Each paper draws <strong>20 unique, non-repeating questions</strong> saved in browser memory across attempts.</li>
             <li>Use the right-side <strong>Question Palette</strong> to jump directly to any question.</li>
-            <li>Click <strong>Save & Next</strong> to save answers; use <strong>Mark for Review</strong> to flag items.</li>
+            <li>An on-screen <strong>Calculator</strong> is available during the exam and on the PDF Marksheet screen.</li>
             <li>Timer starts immediately upon clicking <strong>Start Assessment</strong>.</li>
           </ul>
         </div>
@@ -130,7 +182,7 @@
             <i class="fa-solid fa-calculator text-blue-400"></i>
           </div>
           <div>
-            <h2 class="font-bold text-base text-slate-100 leading-tight">Final Accounts Assessment</h2>
+            <h2 id="cbt-paper-title" class="font-bold text-base text-slate-100 leading-tight">Paper I: Income Tax Assessment</h2>
             <p class="text-xs text-slate-400 flex items-center gap-1.5">
               <i class="fa-solid fa-user-circle text-blue-400"></i>
               Candidate: <span id="display-candidate-name" class="text-slate-200 font-semibold">Candidate</span>
@@ -282,7 +334,7 @@
 
         <div class="flex gap-3 pt-1">
           <button onclick="closeConfirmModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition">
-            Return to Test
+            Resume Exam
           </button>
           <button onclick="executeFinalSubmit()" class="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow transition">
             Confirm & Submit
@@ -290,53 +342,54 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Floating Draggable On-Screen Calculator -->
-    <div id="cbt-calculator" class="hidden fixed bottom-6 right-6 z-40 w-72 bg-slate-900 text-white rounded-2xl shadow-2xl border border-slate-700 overflow-hidden select-none">
-      <!-- Draggable Title Bar -->
-      <div id="calc-drag-header" class="bg-slate-800 px-4 py-2.5 flex items-center justify-between cursor-move border-b border-slate-700">
-        <div class="flex items-center gap-2 text-xs font-bold text-slate-200">
-          <i class="fa-solid fa-calculator text-blue-400"></i>
-          <span>CBT Calculator</span>
-        </div>
-        <button onclick="toggleCalculator()" class="text-slate-400 hover:text-white transition p-1">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
+
+  <!-- ==================== FLOATING DRAGGABLE ON-SCREEN CALCULATOR (AVAILABLE IN CBT & PDF MARKSHEET) ==================== -->
+  <div id="cbt-calculator" class="hidden fixed bottom-6 right-6 z-50 w-72 bg-slate-900 text-white rounded-2xl shadow-2xl border border-slate-700 overflow-hidden select-none">
+    <!-- Draggable Title Bar -->
+    <div id="calc-drag-header" class="bg-slate-800 px-4 py-2.5 flex items-center justify-between cursor-move border-b border-slate-700">
+      <div class="flex items-center gap-2 text-xs font-bold text-slate-200">
+        <i class="fa-solid fa-calculator text-blue-400"></i>
+        <span>CBT Calculator</span>
       </div>
+      <button onclick="toggleCalculator()" class="text-slate-400 hover:text-white transition p-1">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
 
-      <!-- Display Screen -->
-      <div class="p-4 bg-slate-950 border-b border-slate-800 text-right font-mono">
-        <div id="calc-history" class="text-[11px] text-slate-400 h-4 overflow-hidden truncate"></div>
-        <div id="calc-display" class="text-2xl font-bold text-emerald-400 truncate mt-1">0</div>
-      </div>
+    <!-- Display Screen -->
+    <div class="p-4 bg-slate-950 border-b border-slate-800 text-right font-mono">
+      <div id="calc-history" class="text-[11px] text-slate-400 h-4 overflow-hidden truncate"></div>
+      <div id="calc-display" class="text-2xl font-bold text-emerald-400 truncate mt-1">0</div>
+    </div>
 
-      <!-- Keypad Grid -->
-      <div class="p-3 grid grid-cols-4 gap-2 bg-slate-900 text-sm font-bold">
-        <button onclick="calcClear()" class="p-2.5 rounded-xl bg-rose-600/20 text-rose-400 hover:bg-rose-600/30 transition">AC</button>
-        <button onclick="calcBackspace()" class="p-2.5 rounded-xl bg-slate-800 text-amber-400 hover:bg-slate-700 transition"><i class="fa-solid fa-delete-left"></i></button>
-        <button onclick="calcPercent()" class="p-2.5 rounded-xl bg-slate-800 text-blue-400 hover:bg-slate-700 transition">%</button>
-        <button onclick="calcOperator('/')" class="p-2.5 rounded-xl bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 transition">÷</button>
+    <!-- Keypad Grid -->
+    <div class="p-3 grid grid-cols-4 gap-2 bg-slate-900 text-sm font-bold">
+      <button onclick="calcClear()" class="p-2.5 rounded-xl bg-rose-600/20 text-rose-400 hover:bg-rose-600/30 transition">AC</button>
+      <button onclick="calcBackspace()" class="p-2.5 rounded-xl bg-slate-800 text-amber-400 hover:bg-slate-700 transition"><i class="fa-solid fa-delete-left"></i></button>
+      <button onclick="calcPercent()" class="p-2.5 rounded-xl bg-slate-800 text-blue-400 hover:bg-slate-700 transition">%</button>
+      <button onclick="calcOperator('/')" class="p-2.5 rounded-xl bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 transition">÷</button>
 
-        <button onclick="calcDigit('7')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">7</button>
-        <button onclick="calcDigit('8')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">8</button>
-        <button onclick="calcDigit('9')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">9</button>
-        <button onclick="calcOperator('*')" class="p-2.5 rounded-xl bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 transition">×</button>
+      <button onclick="calcDigit('7')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">7</button>
+      <button onclick="calcDigit('8')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">8</button>
+      <button onclick="calcDigit('9')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">9</button>
+      <button onclick="calcOperator('*')" class="p-2.5 rounded-xl bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 transition">×</button>
 
-        <button onclick="calcDigit('4')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">4</button>
-        <button onclick="calcDigit('5')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">5</button>
-        <button onclick="calcDigit('6')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">6</button>
-        <button onclick="calcOperator('-')" class="p-2.5 rounded-xl bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 transition">−</button>
+      <button onclick="calcDigit('4')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">4</button>
+      <button onclick="calcDigit('5')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">5</button>
+      <button onclick="calcDigit('6')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">6</button>
+      <button onclick="calcOperator('-')" class="p-2.5 rounded-xl bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 transition">−</button>
 
-        <button onclick="calcDigit('1')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">1</button>
-        <button onclick="calcDigit('2')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">2</button>
-        <button onclick="calcDigit('3')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">3</button>
-        <button onclick="calcOperator('+')" class="p-2.5 rounded-xl bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 transition">+</button>
+      <button onclick="calcDigit('1')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">1</button>
+      <button onclick="calcDigit('2')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">2</button>
+      <button onclick="calcDigit('3')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">3</button>
+      <button onclick="calcOperator('+')" class="p-2.5 rounded-xl bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 transition">+</button>
 
-        <button onclick="calcDigit('00')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition text-xs">00</button>
-        <button onclick="calcDigit('0')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">0</button>
-        <button onclick="calcDecimal()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">.</button>
-        <button onclick="calcEquals()" class="p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white shadow transition">=</button>
-      </div>
+      <button onclick="calcDigit('00')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition text-xs">00</button>
+      <button onclick="calcDigit('0')" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">0</button>
+      <button onclick="calcDecimal()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 transition">.</button>
+      <button onclick="calcEquals()" class="p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white shadow transition">=</button>
     </div>
   </div>
 
@@ -352,13 +405,17 @@
             <i class="fa-solid fa-award"></i>
           </div>
           <div>
-            <h2 class="font-bold text-slate-900 text-lg">Assessment Results</h2>
+            <h2 id="results-header-title" class="font-bold text-slate-900 text-lg">Assessment Results</h2>
             <p class="text-xs text-slate-500" id="result-timestamp">Completed on Date</p>
           </div>
         </div>
 
-        <!-- Action Buttons: Download PDF & Share -->
+        <!-- Action Buttons: Calculator, Download PDF & Share -->
         <div class="flex flex-wrap items-center gap-2">
+          <button onclick="toggleCalculator()" class="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-900 text-blue-300 text-xs font-bold rounded-xl shadow transition flex items-center gap-1.5" title="Open Calculator to verify calculations">
+            <i class="fa-solid fa-calculator"></i>
+            <span>Calculator</span>
+          </button>
           <button onclick="downloadPDFMarksheet()" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow transition flex items-center gap-2">
             <i class="fa-solid fa-file-pdf"></i>
             <span>Download PDF Marksheet</span>
@@ -369,7 +426,7 @@
           </button>
           <button onclick="restartExam()" class="px-4 py-2.5 border border-slate-300 hover:bg-slate-100 text-slate-700 text-xs font-bold rounded-xl transition flex items-center gap-2">
             <i class="fa-solid fa-rotate-right"></i>
-            <span>Retake Assessment</span>
+            <span>Switch / Retake Paper</span>
           </button>
         </div>
       </div>
@@ -381,7 +438,7 @@
         <div class="border-b border-slate-200 pb-6 flex flex-wrap justify-between items-start gap-4">
           <div>
             <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded-md uppercase tracking-wider">Official Marksheet</span>
-            <h1 class="text-2xl font-bold text-slate-900 mt-2">Final Accounts Assessment</h1>
+            <h1 id="marksheet-paper-title" class="text-2xl font-bold text-slate-900 mt-2">Paper I: Income Tax Assessment</h1>
             <p class="text-xs text-slate-500">Computer-Based Online Examination System</p>
           </div>
           <div class="text-right text-xs text-slate-600 space-y-1">
@@ -482,277 +539,922 @@
   <!-- ==================== APPLICATION LOGIC & QUESTION BANK ==================== -->
   <script>
     // ----------------------------------------------------------------------
-    // 30 SCENARIO-BASED FINAL ACCOUNTS QUESTION BANK (NO CONCEPT TERMS IN TEXT)
+    // 3 INDEPENDENT SUBJECT QUESTION BANKS (30 QUESTIONS EACH = 90 TOTAL)
     // ----------------------------------------------------------------------
-    const QUESTION_BANK = [
-      {
-        id: 1,
-        question: "Ravi Traders paid Rent of ₹6,000 during the financial year as shown in the Trial Balance. Rent for 2 months @ ₹500 per month remains unpaid at year-end. What total Rent expense should be debited to the Profit & Loss Account?",
-        options: ["₹6,000", "₹7,000", "₹5,000", "₹1,000"],
-        correctIndex: 1, // ₹7,000
-        concept: "Accrual Adjustment",
-        explanation: "Total Rent Expense = Cash Paid (₹6,000) + Outstanding Rent for 2 months (2 × ₹500 = ₹1,000) = ₹7,000."
+    const SUBJECT_META = {
+      incometax: {
+        title: "Paper I: Income Tax Assessment",
+        shortName: "Income Tax",
+        storageKey: "cbt_used_ids_incometax_v1"
       },
-      {
-        id: 2,
-        question: "Mehta & Co. shows Furniture at ₹20,000 in the Trial Balance. Depreciation is to be provided at 10% per annum. What net amount will appear for Furniture under Non-current Assets in the Balance Sheet?",
-        options: ["₹20,000", "₹2,000", "₹18,000", "₹22,000"],
-        correctIndex: 2, // ₹18,000
-        concept: "Depreciation Netting",
-        explanation: "Depreciation = 10% of ₹20,000 = ₹2,000. Net carrying value in Balance Sheet = ₹20,000 - ₹2,000 = ₹18,000."
+      gst: {
+        title: "Paper II: GST Assessment",
+        shortName: "GST",
+        storageKey: "cbt_used_ids_gst_v1"
       },
-      {
-        id: 3,
-        question: "Ravi Traders valued its Closing Stock at the end of the year at a Cost of ₹20,000. However, its Net Realisable Value (Market Value) is determined to be ₹18,000. At what figure should Closing Stock be presented in the Final Accounts?",
-        options: ["₹20,000", "₹18,000", "₹38,000", "₹2,000"],
-        correctIndex: 1, // ₹18,000
-        concept: "Prudence & Inventory Valuation",
-        explanation: "Closing Stock is valued at Cost (₹20,000) or Net Realisable Value (₹18,000), whichever is lower. Hence, ₹18,000 is recorded."
-      },
-      {
-        id: 4,
-        question: "The proprietor of Apex Industries Ltd. withdrew ₹10,000 cash from the business bank account for personal household expenses. How is this transaction reflected in the Balance Sheet?",
-        options: ["Deducted from Capital on Liabilities side", "Added to Net Profit in P&L Account", "Shown as a Current Asset", "Debited directly to Trading Account"],
-        correctIndex: 0, // Deducted from Capital
-        concept: "Owner Drawings & Capital Reduction",
-        explanation: "Personal withdrawals reduce equity/capital. Drawings of ₹10,000 are deducted from Opening Capital on the Liabilities side."
-      },
-      {
-        id: 5,
-        question: "Mehta & Co.'s Trial Balance reflects Wages of ₹8,000 and Salaries of ₹12,000. How are these two expense items reported in the Final Accounts?",
-        options: ["Both in Profit & Loss Account", "Both in Trading Account", "Wages in Trading Account & Salaries in P&L Account", "Wages in P&L Account & Salaries in Trading Account"],
-        correctIndex: 2, // Wages Trading, Salaries P&L
-        concept: "Direct vs Indirect Cost Classification",
-        explanation: "Wages are direct manufacturing costs charged to Trading A/c; Salaries are indirect administrative expenses charged to Profit & Loss A/c."
-      },
-      {
-        id: 6,
-        question: "Ravi Traders paid an Insurance premium of ₹8,000 during the year. Inspection shows that ₹2,000 of this payment relates to the next financial year. What amounts appear in P&L and Balance Sheet?",
-        options: ["P&L ₹8,000; Balance Sheet ₹0", "P&L ₹6,000; Current Asset ₹2,000", "P&L ₹10,000; Liability ₹2,000", "P&L ₹2,000; Current Asset ₹6,000"],
-        correctIndex: 1, // P&L ₹6,000; Current Asset ₹2,000
-        concept: "Prepaid Expense Accounting",
-        explanation: "Net Insurance Expense in P&L = ₹8,000 - ₹2,000 (prepaid) = ₹6,000. Unexpired insurance of ₹2,000 is shown as a Current Asset."
-      },
-      {
-        id: 7,
-        question: "Apex Industries Ltd. recorded total Gross Sales of ₹6,73,000 and Sales Returns of ₹20,000 for the year. What figure of Net Sales is credited to the Trading Account?",
-        options: ["₹6,93,000", "₹6,73,000", "₹6,53,000", "₹6,50,000"],
-        correctIndex: 2, // ₹6,53,000
-        concept: "Net Turnover Calculation",
-        explanation: "Net Sales credited to Trading A/c = Gross Sales (₹6,73,000) - Sales Returns (₹20,000) = ₹6,53,000."
-      },
-      {
-        id: 8,
-        question: "Mehta & Co. paid Carriage Inward of ₹10,000 on goods purchased and Carriage Outward of ₹5,000 on goods sold. How are these items placed in the Financial Statements?",
-        options: ["Both debited to P&L Account", "Both debited to Trading Account", "Carriage Inward in Trading A/c & Carriage Outward in P&L A/c", "Carriage Inward in P&L A/c & Carriage Outward in Trading A/c"],
-        correctIndex: 2,
-        concept: "Carriage Expense Allocation",
-        explanation: "Carriage Inward is a direct cost added to purchases in Trading A/c. Carriage Outward is a selling distribution expense debited to P&L A/c."
-      },
-      {
-        id: 9,
-        question: "Ravi Traders has Sundry Debtors of ₹1,20,000. Further Bad Debts to be written off are ₹3,000. A Provision for Doubtful Debts is to be maintained @ 5% on remaining debtors. What is the new provision amount to be debited to P&L?",
-        options: ["₹6,000", "₹5,850", "₹6,150", "₹3,000"],
-        correctIndex: 1, // ₹5,850
-        concept: "Provision for Doubtful Debts",
-        explanation: "Net Debtors after bad debts = ₹1,20,000 - ₹3,000 = ₹1,17,000. Provision @ 5% = 5% of ₹1,17,000 = ₹5,850."
-      },
-      {
-        id: 10,
-        question: "Mehta & Co.'s Trial Balance shows Discount Allowed of ₹5,000 and Discount Received of ₹7,000. How are these displayed in the Profit & Loss Account?",
-        options: ["Net ₹2,000 on Credit side", "Discount Allowed ₹5,000 on Debit side & Discount Received ₹7,000 on Credit side", "Both on Debit side totaling ₹12,000", "Both on Credit side"],
-        correctIndex: 1,
-        concept: "Gross Financial Income & Expense",
-        explanation: "Discount Allowed is a financial expense (debit side of P&L), while Discount Received is revenue income (credit side of P&L)."
-      },
-      {
-        id: 11,
-        question: "Apex Industries Ltd. has a 12% Bank Loan of ₹1,00,000 and a Credit Bank Balance (Overdraft) of ₹50,000. How are these presented on the Liabilities side of the Balance Sheet?",
-        options: ["Net Bank Balance of ₹50,000", "Bank Loan ₹1,00,000 under Non-current Liabilities & Bank Overdraft ₹50,000 under Current Liabilities", "Bank Loan ₹1,00,000 and Asset ₹50,000", "Total Liability of ₹1,50,000 under Capital"],
-        correctIndex: 1,
-        concept: "Liability Classification",
-        explanation: "Bank Loan is a long-term liability (₹1,00,000) and Bank Overdraft (credit bank balance ₹50,000) is disclosed as a short-term current liability."
-      },
-      {
-        id: 12,
-        question: "Ravi Traders owns Building valued at ₹2,00,000 (Depreciation @ 5%) and Machinery valued at ₹1,50,000 (Depreciation @ 10%). What total depreciation charge is debited to the Profit & Loss Account?",
-        options: ["₹25,000", "₹15,000", "₹10,000", "₹20,000"],
-        correctIndex: 0, // ₹25,000
-        concept: "Depreciation Aggregation",
-        explanation: "Building Dep = 5% of ₹2,00,000 = ₹10,000. Machinery Dep = 10% of ₹1,50,000 = ₹15,000. Total Depreciation = ₹10,000 + ₹15,000 = ₹25,000."
-      },
-      {
-        id: 13,
-        question: "Apex Industries Ltd. had Opening Stock of ₹1,00,000, Total Purchases of ₹7,00,000, and Closing Stock of ₹2,40,000. What is the Cost of Goods Sold (COGS)?",
-        options: ["₹5,60,000", "₹8,00,000", "₹10,40,000", "₹6,60,000"],
-        correctIndex: 0, // ₹5,60,000
-        concept: "Cost of Goods Sold Equation",
-        explanation: "COGS = Opening Stock (₹1,00,000) + Purchases (₹7,00,000) - Closing Stock (₹2,40,000) = ₹5,60,000."
-      },
-      {
-        id: 14,
-        question: "Mehta & Co. shows Property, Plant & Equipment at cost of ₹12,00,000 with Opening Accumulated Depreciation of ₹2,00,000. Current year depreciation is ₹50,000. What net book value is reported in the Balance Sheet?",
-        options: ["₹10,00,000", "₹9,50,000", "₹12,00,000", "₹11,50,000"],
-        correctIndex: 1, // ₹9,50,000
-        concept: "Net Fixed Asset Carrying Value",
-        explanation: "Total Accumulated Depreciation = ₹2,00,000 + ₹50,000 = ₹2,50,000. Net Book Value = ₹12,00,000 - ₹2,50,000 = ₹9,50,000."
-      },
-      {
-        id: 15,
-        question: "Apex Industries Ltd. recorded a Right-of-Use (ROU) Asset of ₹3,00,000 with annual depreciation of ₹30,000. What is the net carrying amount of this asset at year-end?",
-        options: ["Non-current Asset at ₹2,70,000", "Current Asset at ₹3,00,000", "Expensed fully in P&L at ₹3,00,000", "Off-balance sheet memorandum item"],
-        correctIndex: 0, // ₹2,70,000
-        concept: "Lease Asset Carrying Amount",
-        explanation: "The Right-of-Use Asset is reported under Non-current Assets at cost less depreciation = ₹3,00,000 - ₹30,000 = ₹2,70,000."
-      },
-      {
-        id: 16,
-        question: "Ravi Traders issued 10% Debentures of ₹5,00,000. Interest paid during the financial year was ₹25,000. What amount of interest remains outstanding to be accrued in Final Accounts?",
-        options: ["₹50,000", "₹25,000", "₹0", "₹10,000"],
-        correctIndex: 1, // ₹25,000
-        concept: "Debenture Interest Accrual",
-        explanation: "Total Annual Interest = 10% of ₹5,00,000 = ₹50,000. Paid = ₹25,000. Outstanding interest to accrue = ₹50,000 - ₹25,000 = ₹25,000."
-      },
-      {
-        id: 17,
-        question: "Apex Industries Ltd. reports Trade Receivables of ₹3,50,000. Bad debts during the year (already written off) were ₹10,000. A 5% provision for doubtful debts is required on receivables. What is net Trade Receivables on the Balance Sheet?",
-        options: ["₹3,50,000", "₹3,32,500", "₹3,40,000", "₹3,22,500"],
-        correctIndex: 1, // ₹3,32,500
-        concept: "Net Receivables Valuation",
-        explanation: "Receivables balance = ₹3,50,000. Provision required = 5% of ₹3,50,000 = ₹17,500. Net Trade Receivables = ₹3,50,000 - ₹17,500 = ₹3,32,500."
-      },
-      {
-        id: 18,
-        question: "Mehta & Co. incurred a Loss on Sale of Investments of ₹1,20,000 and paid Dividend of ₹60,000. How are these two transactions categorized?",
-        options: [
-          "Loss on sale is a Non-operating expense in P&L; Dividend paid is an Appropriation of Profit",
-          "Both are classified as Direct Operating Expenses",
-          "Dividend paid is an operating expense; Loss on sale is ignored",
-          "Both are added directly to Sales revenue"
-        ],
-        correctIndex: 0,
-        concept: "Expense vs Profit Appropriation",
-        explanation: "Loss on sale of investments is a non-operating expense debited to P&L. Dividend paid is an appropriation of accumulated profits, not an expense."
-      },
-      {
-        id: 19,
-        question: "Apex Industries Ltd. estimates current year Income Tax liability to be ₹1,20,000. How is this recorded in the financial statements?",
-        options: [
-          "Debited to Profit & Loss Statement & shown under Current Liabilities",
-          "Credited to Profit & Loss Statement",
-          "Deducted from Property, Plant & Equipment",
-          "Added to General Reserve in Equity"
-        ],
-        correctIndex: 0,
-        concept: "Income Tax Provision Accounting",
-        explanation: "Tax provision is an expense debited to P&L Statement and recognized as a short-term provision under Current Liabilities on the Balance Sheet."
-      },
-      {
-        id: 20,
-        question: "Ravi Traders has General Reserve of ₹2,00,000 and Retained Earnings (P&L Cr balance) of ₹1,00,000. Net Profit for current year is ₹50,000. What is total Reserves & Surplus?",
-        options: ["₹3,00,000", "₹3,50,000", "₹2,50,000", "₹2,00,000"],
-        correctIndex: 1, // ₹3,50,000
-        concept: "Reserves & Surplus Summation",
-        explanation: "Total Reserves & Surplus = General Reserve (₹2,00,000) + Opening Retained Earnings (₹1,00,000) + Current Net Profit (₹50,000) = ₹3,50,000."
-      },
-      {
-        id: 21,
-        question: "Mehta & Co.'s Trade Payables stand at ₹3,60,000. Goods worth ₹20,000 were returned to a supplier but no entry was recorded in the books. What is the adjusted Trade Payables figure?",
-        options: ["₹3,80,000", "₹3,60,000", "₹3,40,000", "₹3,20,000"],
-        correctIndex: 2, // ₹3,40,000
-        concept: "Unrecorded Purchase Return Rectification",
-        explanation: "Unrecorded purchase returns reduce liability to suppliers. Adjusted Trade Payables = ₹3,60,000 - ₹20,000 = ₹3,40,000."
-      },
-      {
-        id: 22,
-        question: "Apex Industries Ltd. holds Cash in Hand of ₹10,00, Bank Balance of ₹1,50,000, and Short-term Marketable Securities of ₹50,000. What is the total Cash & Cash Equivalents?",
-        options: ["₹1,60,000", "₹2,10,000", "₹1,50,000", "₹2,00,000"],
-        correctIndex: 1, // ₹2,10,000
-        concept: "Cash Equivalents Aggregation",
-        explanation: "Cash & Cash Equivalents = Cash (₹10,000) + Bank (₹1,50,000) + Marketable Securities (₹50,000) = ₹2,10,000."
-      },
-      {
-        id: 23,
-        question: "Ravi Traders holds Investments of ₹3,70,000. Interest accrued but not yet received on these investments is ₹15,000. Where is this accrued interest presented in the Balance Sheet?",
-        options: ["Added to Capital", "Other Current Assets", "Current Liabilities", "Deducted from Investments"],
-        correctIndex: 1, // Other Current Assets
-        concept: "Accrued Income Presentation",
-        explanation: "Interest earned but not received is an asset expected to be realized within 12 months, disclosed under Other Current Assets."
-      },
-      {
-        id: 24,
-        question: "Mehta & Co. pays Manager's Commission at 10% on Net Profit after charging such commission. Net Profit before commission is ₹1,10,000. What is the Commission amount?",
-        options: ["₹11,000", "₹10,000", "₹1,100", "₹9,000"],
-        correctIndex: 1, // ₹10,000
-        concept: "Commission After Charging Formula",
-        explanation: "Commission = Net Profit × [Rate / (100 + Rate)] = ₹1,10,000 × (10 / 110) = ₹10,000."
-      },
-      {
-        id: 25,
-        question: "Apex Industries Ltd. purchased Plant & Machinery for ₹5,00,000. Installation expenses were ₹50,000, and trial run costs were ₹10,000. What is the initial capitalized cost of Plant & Machinery?",
-        options: ["₹5,00,000", "₹5,50,000", "₹5,60,000", "₹5,10,000"],
-        correctIndex: 2, // ₹5,60,000
-        concept: "Asset Cost Capitalization",
-        explanation: "All direct costs incurred to bring an asset to its working condition (Purchase + Installation + Trial run) are capitalized = ₹5,00,000 + ₹50,000 + ₹10,000 = ₹5,60,000."
-      },
-      {
-        id: 26,
-        question: "Ravi Traders distributed goods worth ₹5,00,0 as free samples for marketing. How is this transaction treated in Trading Account and Profit & Loss Account?",
-        options: [
-          "Added to Sales and debited to P&L",
-          "Deducted from Purchases in Trading A/c and debited as Sales Promotion in P&L A/c",
-          "Ignored in financial statements",
-          "Credited to Profit & Loss Account"
-        ],
-        correctIndex: 1,
-        concept: "Goods Distributed as Free Samples",
-        explanation: "Cost of goods given as samples reduces purchase cost in Trading A/c (or credited to Trading A/c) and is debited as Sales Promotion/Advertisement in P&L A/c."
-      },
-      {
-        id: 27,
-        question: "Mehta & Co. suffered a warehouse fire destroying stock worth ₹40,000. The insurance company admitted a claim for ₹30,000. What net amount is debited to P&L as loss?",
-        options: ["₹40,000", "₹30,000", "₹10,000", "₹70,000"],
-        correctIndex: 2, // ₹10,000
-        concept: "Abnormal Loss Netting",
-        explanation: "Total Loss = ₹40,000. Insurance Claim Recoverable = ₹30,000 (Current Asset). Net unrecovered loss charged to P&L = ₹40,000 - ₹30,000 = ₹10,000."
-      },
-      {
-        id: 28,
-        question: "Apex Industries Ltd. sent goods costing ₹15,000 to a customer on Approval basis at invoice price of ₹20,000, recorded as Sales. At year-end, no approval was received. What adjustments are made?",
-        options: [
-          "Deduct ₹20,000 from Sales/Debtors and add ₹15,000 to Closing Stock",
-          "Deduct ₹15,000 from Sales only",
-          "Add ₹20,000 to Closing Stock",
-          "No adjustment required"
-        ],
-        correctIndex: 0,
-        concept: "Goods Sent on Approval Basis",
-        explanation: "Unconfirmed sale on approval is reversed by deducting selling price (₹20,000) from Sales & Debtors, and adding cost price (₹15,000) to Closing Inventory."
-      },
-      {
-        id: 29,
-        question: "Ravi Traders had Opening Prepaid Rent of ₹3,000. Cash Rent paid during the year was ₹24,000. Closing Prepaid Rent is ₹4,000. What is the Rent expense charged to P&L?",
-        options: ["₹24,000", "₹23,000", "₹25,000", "₹27,000"],
-        correctIndex: 1, // ₹23,000
-        concept: "Period Expense Adjustment Formula",
-        explanation: "Rent Expense = Opening Prepaid (₹3,000) + Cash Paid (₹24,000) - Closing Prepaid (₹4,000) = ₹23,000."
-      },
-      {
-        id: 30,
-        question: "Mehta & Co. started the year with Capital of ₹5,00,000. Additional Capital introduced was ₹1,00,000. Net Profit earned was ₹80,000, and Drawings were ₹30,000. What is Closing Capital?",
-        options: ["₹6,50,000", "₹6,80,000", "₹6,20,000", "₹5,80,000"],
-        correctIndex: 0, // ₹6,50,000
-        concept: "Capital Movement Equation",
-        explanation: "Closing Capital = Opening Capital (₹5,00,000) + Additional Capital (₹1,00,000) + Net Profit (₹80,000) - Drawings (₹30,000) = ₹6,50,000."
+      accounts: {
+        title: "Paper III: Financial Accounts Assessment",
+        shortName: "Financial Accounts",
+        storageKey: "cbt_used_ids_accounts_v1"
       }
-    ];
+    };
+
+    const QUESTION_BANKS = {
+      // ==================== PAPER I: INCOME TAX (30 QUESTIONS) ====================
+      incometax: [
+        {
+          id: "IT01",
+          question: "An Indian citizen leaves India for the first time on 20th September of the previous year for employment abroad. He stayed in India for 173 days during that year. What is his residential status for that previous year?",
+          options: ["Non-Resident (NR)", "Resident and Ordinarily Resident (ROR)", "Resident but Not Ordinarily Resident (RNOR)", "Deemed Resident"],
+          correctIndex: 0,
+          concept: "Residential Status — Employment Abroad Exception",
+          explanation: "An Indian citizen leaving India for employment abroad must stay in India for at least 182 days (the 60-day + 365-day rule does not apply). Since his stay is 173 days (< 182 days), he is a Non-Resident."
+        },
+        {
+          id: "IT02",
+          question: "A salaried employee receives Basic Salary of ₹6,00,000, Dearness Allowance (forming part of retirement benefits) of ₹1,20,000, and House Rent Allowance (HRA) of ₹2,40,000. He lives in a rented house in Hyderabad paying ₹20,000 per month. What is the maximum HRA exemption available?",
+          options: ["₹1,68,000", "₹2,40,000", "₹2,88,000", "₹72,000"],
+          correctIndex: 0,
+          concept: "HRA Exemption — Section 10(13A)",
+          explanation: "Salary for HRA = ₹6,00,000 + ₹1,20,000 = ₹7,20,000. Least of: (1) Actual HRA = ₹2,40,000; (2) Rent paid minus 10% of Salary = ₹2,40,000 - ₹72,000 = ₹1,68,000; (3) 40% of Salary (Hyderabad is non-metro for HRA) = ₹2,88,000. Exempt HRA = ₹1,68,000."
+        },
+        {
+          id: "IT03",
+          question: "Under the New Tax Regime (Section 115BAC), what is the standard deduction available to a salaried individual from Gross Salary?",
+          options: ["₹75,000", "₹50,000", "₹1,00,000", "Nil"],
+          correctIndex: 0,
+          concept: "Standard Deduction under Section 16(ia)",
+          explanation: "Under the default New Tax Regime (Section 115BAC), salaried employees and pensioners are eligible for a flat Standard Deduction of ₹75,000."
+        },
+        {
+          id: "IT04",
+          question: "A let-out house property has Municipal Value of ₹3,00,000, Fair Rent of ₹3,60,000, Standard Rent of ₹3,20,000, and Actual Rent received of ₹3,50,000 (with no vacancy). What is the Gross Annual Value (GAV)?",
+          options: ["₹3,50,000", "₹3,60,000", "₹3,20,000", "₹3,00,000"],
+          correctIndex: 0,
+          concept: "Gross Annual Value — Section 23(1)",
+          explanation: "Expected Rent = Higher of Municipal Value (₹3,00,000) or Fair Rent (₹3,60,000), restricted to Standard Rent (₹3,20,000) = ₹3,20,000. Since Actual Rent (₹3,50,000) exceeds Expected Rent (₹3,20,000), GAV = ₹3,50,000."
+        },
+        {
+          id: "IT05",
+          question: "A taxpayer borrows ₹25,00,000 to construct a self-occupied residential house. The construction is completed within 5 years, and interest paid for the current financial year is ₹2,40,000. Under the Old Tax Regime, how much interest deduction is allowed?",
+          options: ["₹2,00,000", "₹2,40,000", "₹30,000", "₹1,50,000"],
+          correctIndex: 0,
+          concept: "Interest on Borrowed Capital — Section 24(b)",
+          explanation: "For a self-occupied house property under the Old Tax Regime, deduction for interest on housing loan for acquisition/construction is capped at ₹2,00,000 per annum."
+        },
+        {
+          id: "IT06",
+          question: "A business purchases a new Plant & Machinery for ₹10,00,000 on 15th December and puts it to use on the same day. The normal depreciation rate is 15%. What is the normal depreciation allowable for that financial year?",
+          options: ["₹75,000", "₹1,50,000", "₹1,00,000", "₹37,500"],
+          correctIndex: 0,
+          concept: "Asset Put to Use < 180 Days — Section 32",
+          explanation: "Since the asset is acquired and put to use on 15th December, it is used for less than 180 days during the previous year. Hence, depreciation is restricted to 50% of normal rate: ₹10,00,000 × 15% × 50% = ₹75,000."
+        },
+        {
+          id: "IT07",
+          question: "A trader makes a cash payment of ₹18,000 in a single day to a supplier for purchase of trading goods (not a transport operator). How much of this expenditure is disallowed while computing business income?",
+          options: ["₹18,000 (100% disallowed)", "₹8,000 (excess over ₹10,000)", "₹0 (fully allowed)", "₹3,000"],
+          correctIndex: 0,
+          concept: "Disallowance of Cash Payments — Section 40A(3)",
+          explanation: "Under Section 40A(3), if aggregate payment to a single person in a single day exceeds ₹10,000 otherwise than by account payee cheque/draft/electronic mode, the entire ₹18,000 is disallowed."
+        },
+        {
+          id: "IT08",
+          question: "An eligible resident individual running a retail business has a total turnover of ₹1,40,00,000, out of which ₹1,00,00,000 is received through digital banking channels before the due date and ₹40,00,000 in cash. What is the minimum presumptive income under Section 44AD?",
+          options: ["₹9,20,000", "₹11,20,000", "₹8,40,000", "₹10,00,000"],
+          correctIndex: 0,
+          concept: "Presumptive Taxation — Section 44AD",
+          explanation: "Presumptive profit is 6% on digital receipts (6% of ₹1,00,00,000 = ₹6,00,000) plus 8% on cash receipts (8% of ₹40,00,000 = ₹3,20,000) = ₹9,20,000."
+        },
+        {
+          id: "IT09",
+          question: "An individual sells listed equity shares (on which STT was paid) after holding them for 14 months, earning a Long-Term Capital Gain (LTCG) of ₹2,25,000. On what amount is LTCG taxed under Section 112A?",
+          options: ["₹1,00,000", "₹1,25,000", "₹2,25,000", "₹75,000"],
+          correctIndex: 0,
+          concept: "LTCG on Listed Equity — Section 112A",
+          explanation: "Listed equity shares held for > 12 months qualify as long-term capital assets. Under Section 112A, LTCG up to ₹1,25,000 is exempt; the excess (₹2,25,000 - ₹1,25,000 = ₹1,00,000) is taxable at 12.5%."
+        },
+        {
+          id: "IT10",
+          question: "A taxpayer wins ₹1,00,000 (net of TDS) from an online game. Ignoring cess, what is the flat rate of income tax applicable on net winnings from online games under Section 115BBJ?",
+          options: ["30%", "20%", "15%", "Slab rate"],
+          correctIndex: 0,
+          concept: "Tax on Online Gaming Winnings — Section 115BBJ",
+          explanation: "Net winnings from online games are taxed at a flat rate of 30% (plus applicable surcharge and 4% cess) without any basic exemption limit or Chapter VI-A deductions."
+        },
+        {
+          id: "IT11",
+          question: "An individual receives gifts of cash on the occasion of her marriage: ₹60,000 from her uncle and ₹85,000 from her close friends. How much is taxable under 'Income from Other Sources'?",
+          options: ["Nil", "₹85,000", "₹1,45,000", "₹95,000"],
+          correctIndex: 0,
+          concept: "Gifts Received on Marriage — Section 56(2)(x)",
+          explanation: "Any sum of money or property received by an individual on the occasion of the marriage of the individual is completely exempt under Section 56(2)(x), regardless of the amount or donor."
+        },
+        {
+          id: "IT12",
+          question: "A minor child earns ₹45,000 as bank fixed deposit interest (not through manual work or special skill). The income is clubbed with the parent's income under the Old Tax Regime. What exemption is available to the parent under Section 10(32)?",
+          options: ["₹1,500", "₹45,000", "₹10,000", "₹5,000"],
+          correctIndex: 0,
+          concept: "Clubbing of Minor's Income — Section 64(1A) & 10(32)",
+          explanation: "When a minor child's passive income is clubbed with a parent's income under the Old Regime, the parent can claim an exemption of up to ₹1,500 per minor child under Section 10(32)."
+        },
+        {
+          id: "IT13",
+          question: "During the financial year, a taxpayer incurs a loss of ₹2,50,000 under 'Income from House Property' and earns ₹9,00,000 under 'Income from Salary'. Under the Old Tax Regime, how much house property loss can be set off against Salary in the same year?",
+          options: ["₹2,00,000", "₹2,50,000", "Nil", "₹1,50,000"],
+          correctIndex: 0,
+          concept: "Inter-Head Set-Off Limit — Section 71(3A)",
+          explanation: "Under Section 71(3A), loss under the head 'Income from House Property' can be set off against any other head of income only up to ₹2,00,000 in a single assessment year; the remaining ₹50,000 is carried forward."
+        },
+        {
+          id: "IT14",
+          question: "A taxpayer has an unabsorbed Long-Term Capital Loss (LTCL) of ₹1,20,000 and Short-Term Capital Gain (STCG) of ₹1,80,000 in the same year. Can the LTCL be set off against the STCG?",
+          options: ["No, LTCL can only be set off against LTCG", "Yes, fully against STCG", "Yes, up to 50%", "Yes, against Salary income"],
+          correctIndex: 0,
+          concept: "Intra-Head Capital Loss Set-Off — Section 70",
+          explanation: "While STCL can be set off against both STCG and LTCG, a Long-Term Capital Loss (LTCL) can ONLY be set off against Long-Term Capital Gains (LTCG)."
+        },
+        {
+          id: "IT15",
+          question: "Under the Old Tax Regime, an individual (aged 40) invests ₹1,20,000 in PPF, pays ₹40,000 towards principal repayment of a housing loan, and contributes ₹30,000 to NPS Tier-I (eligible under 80CCD(1B)). What is the total deduction under Sections 80C and 80CCD(1B)?",
+          options: ["₹1,80,000", "₹1,90,000", "₹1,50,000", "₹2,00,000"],
+          correctIndex: 0,
+          concept: "Deductions under Section 80C & 80CCD(1B)",
+          explanation: "Section 80C eligible amount = ₹1,20,000 + ₹40,000 = ₹1,60,000, restricted to maximum ceiling of ₹1,50,000. Additional NPS deduction under Section 80CCD(1B) = ₹30,000. Total = ₹1,80,000."
+        },
+        {
+          id: "IT16",
+          question: "An individual (aged 35) pays medical insurance premium of ₹22,000 for self & spouse and ₹38,000 for his senior citizen parents (aged 68) through banking channels. Under the Old Tax Regime, what is the total deduction under Section 80D?",
+          options: ["₹60,000", "₹50,000", "₹75,000", "₹47,000"],
+          correctIndex: 0,
+          concept: "Health Insurance Deduction — Section 80D",
+          explanation: "Self & family (< 60 yrs): actual ₹22,000 (limit ₹25,000). Senior citizen parents: actual ₹38,000 (limit ₹50,000). Total allowed = ₹22,000 + ₹38,000 = ₹60,000."
+        },
+        {
+          id: "IT17",
+          question: "A resident individual (not a senior citizen) earns ₹14,000 as interest on a Savings Bank Account and ₹30,000 as interest on a Bank Fixed Deposit. Under the Old Tax Regime, how much deduction is allowed under Section 80TTA?",
+          options: ["₹10,000", "₹14,000", "₹44,000", "₹50,000"],
+          correctIndex: 0,
+          concept: "Savings Interest Deduction — Section 80TTA",
+          explanation: "Section 80TTA allows a deduction up to ₹10,000 strictly on savings account interest (not fixed deposit interest) for non-senior citizens."
+        },
+        {
+          id: "IT18",
+          question: "A resident individual opts for the New Tax Regime (Section 115BAC) and has a Total Taxable Income of ₹6,80,000. What is the tax rebate available under Section 87A?",
+          options: ["100% of tax payable (up to ₹25,000)", "₹12,500", "Nil", "50% of tax payable"],
+          correctIndex: 0,
+          concept: "Rebate under Section 87A (New Regime)",
+          explanation: "Under Section 115BAC, a resident individual whose total income does not exceed ₹7,00,000 gets a rebate of 100% of income tax payable (up to ₹25,000), making normal tax liability Nil."
+        },
+        {
+          id: "IT19",
+          question: "A company pays ₹45,000 as technical consultancy fees to a resident professional (having valid PAN) during the financial year. Under Section 194J, at what rate must TDS be deducted?",
+          options: ["10%", "2%", "1%", "5%"],
+          correctIndex: 0,
+          concept: "TDS on Professional Services — Section 194J",
+          explanation: "Under Section 194J, fees for professional services exceeding ₹30,000 in a financial year attract TDS at 10% (whereas fees for technical services attract 2%)."
+        },
+        {
+          id: "IT20",
+          question: "An individual tenant (not subject to tax audit) pays monthly rent of ₹55,000 for a residential flat to a resident landlord. Under Section 194-IB, when and at what rate is TDS required to be deducted?",
+          options: ["2% in the last month of the year or tenancy", "10% every month", "5% every quarter", "No TDS applicable"],
+          correctIndex: 0,
+          concept: "TDS on Rent by Individuals — Section 194-IB",
+          explanation: "Individuals/HUFs not liable to tax audit paying rent > ₹50,000 per month must deduct TDS at 2% once a year in the last month of the previous year (or last month of tenancy)."
+        },
+        {
+          id: "IT21",
+          question: "A resident individual has an estimated tax liability (net of TDS) of ₹42,000 for the financial year. By 15th December, what cumulative percentage of total Advance Tax must be paid?",
+          options: ["75%", "45%", "15%", "100%"],
+          correctIndex: 0,
+          concept: "Advance Tax Installments — Section 211",
+          explanation: "Advance tax is payable if net tax liability is ₹10,000 or more. Cumulative installments: 15% by June 15, 45% by Sept 15, 75% by Dec 15, and 100% by March 15."
+        },
+        {
+          id: "IT22",
+          question: "An individual (not requiring tax audit and without international transactions) files her Income Tax Return after the 31st July due date on 10th October. Her total income is ₹6,50,000. What is the late filing fee under Section 234F?",
+          options: ["₹5,000", "₹1,000", "₹10,000", "Nil"],
+          correctIndex: 0,
+          concept: "Late Filing Fee — Section 234F",
+          explanation: "Under Section 234F, if total income exceeds ₹5,00,000, the late filing fee is ₹5,000. (It is capped at ₹1,000 only if total income is up to ₹5,00,000)."
+        },
+        {
+          id: "IT23",
+          question: "A resident senior citizen (aged 65) has no income from business or profession. Is he required to pay Advance Tax even if his net tax liability on pension and interest exceeds ₹10,000?",
+          options: ["No, exempt under Section 207", "Yes, in 4 installments", "Yes, 100% by 15th March", "Only if income exceeds ₹10,00,000"],
+          correctIndex: 0,
+          concept: "Advance Tax Exemption for Senior Citizens — Section 207",
+          explanation: "A resident individual aged 60 years or more who does not have any income chargeable under 'Profits and Gains of Business or Profession' is exempt from paying Advance Tax."
+        },
+        {
+          id: "IT24",
+          question: "An employer contributes ₹1,80,000 to a Recognized Provident Fund (RPF) for an employee whose Basic Salary + DA (forming part) is ₹12,00,000. How much of the employer's contribution is taxable as salary?",
+          options: ["₹36,000", "₹1,80,000", "Nil", "₹1,44,000"],
+          correctIndex: 0,
+          concept: "Employer Contribution to RPF — Rule 6",
+          explanation: "Employer's contribution to RPF is exempt up to 12% of Salary (12% of ₹12,00,000 = ₹1,44,000). The excess ₹36,000 (₹1,80,000 - ₹1,44,000) is taxable."
+        },
+        {
+          id: "IT25",
+          question: "A taxpayer receives ₹3,00,000 as Agricultural Income from land situated in Telangana and ₹8,00,000 as Non-Agricultural Business Income. For partial integration of agricultural income, which condition must be satisfied?",
+          options: [
+            "Net agricultural income > ₹5,000 AND non-agricultural income > basic exemption limit",
+            "Net agricultural income > ₹1,00,000 only",
+            "Any amount of agricultural income regardless of other income",
+            "Only applicable to companies"
+          ],
+          correctIndex: 0,
+          concept: "Partial Integration of Agricultural Income",
+          explanation: "Partial integration applies to individuals/HUFs when net agricultural income exceeds ₹5,000 AND non-agricultural taxable income exceeds the basic exemption limit."
+        },
+        {
+          id: "IT26",
+          question: "During scrutiny, it is found that a taxpayer did not furnish his PAN to a deductor where TDS was otherwise deductible at 10% under Section 194C/194J. At what minimum rate must TDS be deducted under Section 206AA?",
+          options: ["20%", "10%", "5%", "30%"],
+          correctIndex: 0,
+          concept: "Higher TDS for Non-Furnishing of PAN — Section 206AA",
+          explanation: "Under Section 206AA, failure to furnish PAN requires TDS deduction at the higher of: rate in force, rate specified in the Act, or 20%."
+        },
+        {
+          id: "IT27",
+          question: "A company deducts ₹20,000 as TDS from a contractor's bill on 10th August, pays it to the Government on 25th October, and files its return on time. Will the ₹2,00,000 contractor expense be allowed in the same financial year?",
+          options: [
+            "Yes, 100% allowed since TDS was deposited before the return filing due date",
+            "No, 30% is permanently disallowed",
+            "No, 100% is disallowed",
+            "Allowed only in the next year"
+          ],
+          correctIndex: 0,
+          concept: "TDS Compliance & Expense Allowability — Section 40(a)(ia)",
+          explanation: "Under Section 40(a)(ia), if TDS is deducted during the previous year and paid to the Government on or before the due date of filing the ITR under Section 139(1), 100% of the expense is allowed."
+        },
+        {
+          id: "IT28",
+          question: "An individual earns Short-Term Capital Gain of ₹1,50,000 on sale of listed equity shares (STT paid) taxable under Section 111A, and has no other income. How much of his basic exemption limit (₹3,00,000 under New Regime) can be adjusted against this STCG if he is a resident?",
+          options: ["₹1,50,000 (entire STCG absorbed, tax Nil)", "Nil, Section 111A is taxed flat without basic exemption", "₹75,000", "₹50,000"],
+          correctIndex: 0,
+          concept: "Unexhausted Basic Exemption Adjustment",
+          explanation: "A resident individual/HUF can adjust the unexhausted basic exemption limit against special-rate incomes under Sections 111A, 112, and 112A."
+        },
+        {
+          id: "IT29",
+          question: "What is the due date for filing a Belated Return or Revised Return for a given Assessment Year?",
+          options: [
+            "31st December of the relevant Assessment Year",
+            "31st March of the relevant Assessment Year",
+            "31st July of the relevant Assessment Year",
+            "30th September of the relevant Assessment Year"
+          ],
+          correctIndex: 0,
+          concept: "Belated & Revised Return Timeline — Section 139(4)/(5)",
+          explanation: "Both a belated return under Section 139(4) and a revised return under Section 139(5) can be furnished up to three months before the end of the relevant Assessment Year (i.e., 31st December)."
+        },
+        {
+          id: "IT30",
+          question: "A sole proprietor's gross business receipts during the previous year are ₹85,00,000. His cash receipts are ₹2,00,000 (less than 5% of total receipts) and cash payments are ₹1,50,000 (less than 5% of total payments). Is compulsory tax audit under Section 44AB applicable?",
+          options: [
+            "No, threshold increases to ₹10 Crore when cash transactions are ≤ 5%",
+            "Yes, because receipts exceed ₹50 Lakhs",
+            "Yes, because receipts exceed ₹1 Crore",
+            "Yes, mandatory for all sole proprietors"
+          ],
+          correctIndex: 0,
+          concept: "Tax Audit Threshold — Section 44AB(a)",
+          explanation: "Under Section 44AB, the tax audit turnover threshold is ₹10 Crore (instead of ₹1 Crore) provided aggregate cash receipts and aggregate cash payments do not exceed 5% of total receipts/payments."
+        }
+      ],
+
+      // ==================== PAPER II: GST (30 QUESTIONS) ====================
+      gst: [
+        {
+          id: "GST01",
+          question: "A registered dealer in Telangana transfers business stock worth ₹1,20,000 without consideration to its own branch in Karnataka having a separate GSTIN. How is this transaction treated under GST?",
+          options: [
+            "Treated as a taxable supply under Schedule I (Distinct Persons)",
+            "Not a supply since there is no consideration",
+            "Exempt under Schedule III",
+            "Treated as an intra-state stock transfer"
+          ],
+          correctIndex: 0,
+          concept: "Supply Without Consideration — Schedule I",
+          explanation: "Under Schedule I of the CGST Act, supply of goods or services between distinct persons (establishments of the same person with different GSTINs) in the course of business is treated as a supply even without consideration."
+        },
+        {
+          id: "GST02",
+          question: "A customer buys a pre-packaged gift hamper containing chocolates (18% GST), dry fruits (12% GST), and a ceramic mug (18% GST) sold together for a single price of ₹1,500, where each item can also be supplied separately. What GST rate applies to the entire hamper?",
+          options: ["18% (highest rate among items)", "12% (lowest rate)", "15% (average rate)", "Exempt"],
+          correctIndex: 0,
+          concept: "Mixed Supply — Section 2(74) & Section 8(b)",
+          explanation: "A combination of two or more individual supplies made together for a single price that is not naturally bundled constitutes a Mixed Supply and attracts the highest rate of tax among the constituents (18%)."
+        },
+        {
+          id: "GST03",
+          question: "An airline sells a flight ticket from Hyderabad to Delhi for ₹6,000, which naturally includes inflight meals and baggage allowance bundled in the ordinary course of business. How is this taxed under GST?",
+          options: [
+            "As a Composite Supply taxed at the rate of the principal supply (air transport)",
+            "As a Mixed Supply taxed at the highest rate",
+            "Each component taxed separately",
+            "Exempt from GST"
+          ],
+          correctIndex: 0,
+          concept: "Composite Supply — Section 2(30) & Section 8(a)",
+          explanation: "Naturally bundled supplies provided in conjunction with each other in the ordinary course of business form a Composite Supply, taxed at the rate applicable to the principal supply."
+        },
+        {
+          id: "GST04",
+          question: "A supplier of goods under the Forward Charge Mechanism issues an invoice on 10th May, removes the goods on 12th May, and receives payment on 18th May. What is the Time of Supply for these goods?",
+          options: ["10th May", "12th May", "18th May", "31st May"],
+          correctIndex: 0,
+          concept: "Time of Supply of Goods — Section 12(2)",
+          explanation: "For goods under forward charge, Time of Supply is the earlier of: Date of issue of invoice (10th May) or Last date on which invoice is required to be issued (date of removal, 12th May). Advance receipt on goods is not taxed. Hence, 10th May."
+        },
+        {
+          id: "GST05",
+          question: "A supplier of taxable services issues an invoice on 25th July (within 30 days of completing the service on 10th July), and receives payment on 5th August. What is the Time of Supply of service?",
+          options: ["25th July", "10th July", "5th August", "30th July"],
+          correctIndex: 0,
+          concept: "Time of Supply of Services — Section 13(2)",
+          explanation: "When the invoice is issued within the prescribed 30-day period, Time of Supply is the earlier of: Date of issue of invoice (25th July) or Date of receipt of payment (5th August) = 25th July."
+        },
+        {
+          id: "GST06",
+          question: "A manufacturer supplies machinery with a base price of ₹5,00,000, packing charges of ₹15,000, freight charged before delivery of ₹20,000, and a State Government subsidy directly linked to price of ₹50,000. What is the Taxable Value of Supply?",
+          options: ["₹5,35,000", "₹5,85,000", "₹5,00,000", "₹4,85,000"],
+          correctIndex: 0,
+          concept: "Value of Taxable Supply — Section 15(2)",
+          explanation: "Taxable Value includes incidental expenses charged before delivery (₹5,00,000 + ₹15,000 + ₹20,000 = ₹5,35,000). Subsidies provided by Central or State Governments are excluded from value."
+        },
+        {
+          id: "GST07",
+          question: "A supplier grants a 5% trade discount (₹10,000) on an invoice of ₹2,00,000, which is clearly recorded on the face of the tax invoice at the time of supply. What is the value on which GST is charged?",
+          options: ["₹1,90,000", "₹2,00,000", "₹2,10,000", "₹1,95,000"],
+          correctIndex: 0,
+          concept: "Discount Deduction — Section 15(3)(a)",
+          explanation: "Any discount given before or at the time of supply and duly recorded in the invoice is deductible from the Value of Supply (₹2,00,000 - ₹10,000 = ₹1,90,000)."
+        },
+        {
+          id: "GST08",
+          question: "A registered dealer in Telangana buys goods from a supplier in Maharashtra, and the goods are delivered to the dealer's warehouse in Telangana. Which GST components are charged on this inter-state transaction?",
+          options: ["IGST only", "CGST + SGST", "CGST + UTGST", "SGST only"],
+          correctIndex: 0,
+          concept: "Inter-State Supply Levy — Section 7 of IGST Act",
+          explanation: "When the location of the supplier (Maharashtra) and place of supply (Telangana) are in two different states, it is an Inter-State Supply chargeable to Integrated GST (IGST)."
+        },
+        {
+          id: "GST09",
+          question: "A registered company has ₹40,000 balance in its Electronic Credit Ledger under IGST, ₹15,000 under CGST, and ₹15,000 under SGST. Its output tax liability is IGST ₹20,000, CGST ₹25,000, and SGST ₹25,000. How must the excess ₹20,000 IGST credit be utilized?",
+          options: [
+            "First against IGST (₹20,000), then remaining ₹20,000 against CGST/SGST in any order",
+            "Only against IGST; remaining ₹20,000 lapses",
+            "Against CGST only; never against SGST",
+            "Must be paid in cash before using IGST credit"
+          ],
+          correctIndex: 0,
+          concept: "ITC Utilization Order — Section 49(5) & Rule 88A",
+          explanation: "IGST credit must first be utilized fully towards IGST liability (₹20,000). The remaining IGST credit (₹20,000) can be utilized towards CGST and/or SGST liability in any order and proportion."
+        },
+        {
+          id: "GST10",
+          question: "Can a taxpayer utilize Input Tax Credit (ITC) available under CGST to pay off SGST output tax liability?",
+          options: [
+            "No, cross-utilization between CGST and SGST is prohibited",
+            "Yes, up to 50%",
+            "Yes, fully after paying IGST",
+            "Only during annual return filing"
+          ],
+          correctIndex: 0,
+          concept: "Restriction on Cross-Utilization — Section 49(5)",
+          explanation: "CGST credit can be used only for CGST and IGST, and SGST credit can be used only for SGST and IGST. CGST credit cannot be set off against SGST liability, and vice versa."
+        },
+        {
+          id: "GST11",
+          question: "A software consulting firm buys a 5-seater passenger car for ₹12,00,000 (plus ₹3,36,000 GST) for official use by its directors. Can the firm claim Input Tax Credit (ITC) on this car?",
+          options: [
+            "No, blocked under Section 17(5) since seating capacity ≤ 13 and not used for specified taxable supplies",
+            "Yes, 100% ITC is allowed for all business assets",
+            "Yes, 50% ITC is allowed",
+            "Yes, if depreciated over 5 years"
+          ],
+          correctIndex: 0,
+          concept: "Blocked Credit on Motor Vehicles — Section 17(5)(a)",
+          explanation: "ITC on motor vehicles for transportation of persons having approved seating capacity of not more than 13 persons is blocked unless used for further supply of vehicles, passenger transport, or driving training."
+        },
+        {
+          id: "GST12",
+          question: "A company spends ₹1,00,000 plus ₹18,000 GST on outdoor catering and club membership for an annual employee party (not mandated by any statutory law). Is ITC available on this ₹18,000 GST?",
+          options: [
+            "No, blocked credit under Section 17(5)(b)",
+            "Yes, allowed as staff welfare expense",
+            "Yes, 50% allowed",
+            "Allowed only if billed to employees"
+          ],
+          correctIndex: 0,
+          concept: "Blocked Credit on Food & Club Membership — Section 17(5)(b)",
+          explanation: "ITC on food and beverages, outdoor catering, and membership of a club/health centre is blocked under Section 17(5)(b), except where obligatory for an employer to provide under any law."
+        },
+        {
+          id: "GST13",
+          question: "A registered business receives a supplier's tax invoice dated 12th August 2025 for goods received in August 2025. What is the statutory last date to claim ITC on this invoice (assuming Annual Return is filed on 31st December 2026)?",
+          options: [
+            "30th November 2026",
+            "31st December 2026",
+            "31st March 2026",
+            "12th August 2026"
+          ],
+          correctIndex: 0,
+          concept: "Time Limit to Avail ITC — Section 16(4)",
+          explanation: "Under Section 16(4), ITC for a financial year (FY 2025-26) can be claimed up to 30th November following the end of the financial year (30th Nov 2026) or filing of Annual Return, whichever is earlier."
+        },
+        {
+          id: "GST14",
+          question: "A registered trader in Telangana is engaged exclusively in the intra-state supply of taxable goods. What is the aggregate turnover threshold beyond which GST registration becomes mandatory?",
+          options: ["₹40 Lakhs", "₹20 Lakhs", "₹10 Lakhs", "₹1.5 Crore"],
+          correctIndex: 0,
+          concept: "Threshold Limit for Registration — Section 22",
+          explanation: "For exclusive suppliers of goods in Telangana (and most normal-category states), the aggregate turnover threshold for mandatory GST registration is ₹40 Lakhs (₹20 Lakhs for services)."
+        },
+        {
+          id: "GST15",
+          question: "A trader in Hyderabad makes an inter-state taxable supply of goods worth ₹1,50,000 to a customer in Bengaluru, even though his annual turnover is only ₹8,00,000. Is GST registration mandatory?",
+          options: [
+            "Yes, compulsory registration applies to inter-state taxable supplies of goods",
+            "No, exempt up to ₹40 Lakhs",
+            "No, exempt up to ₹20 Lakhs",
+            "Only if turnover exceeds ₹10 Lakhs"
+          ],
+          correctIndex: 0,
+          concept: "Compulsory Registration — Section 24(i)",
+          explanation: "Under Section 24(i), persons making any inter-state taxable supply of goods must obtain compulsory GST registration regardless of the threshold turnover limit."
+        },
+        {
+          id: "GST16",
+          question: "An eligible manufacturer opts for the Composition Scheme under Section 10(1) with a turnover of ₹80,00,000 in the financial year. What is the total Composition Tax rate (CGST + SGST) payable?",
+          options: ["1% (0.5% CGST + 0.5% SGST)", "5% (2.5% + 2.5%)", "6% (3% + 3%)", "2% (1% + 1%)"],
+          correctIndex: 0,
+          concept: "Composition Levy Rates — Section 10 & Rule 7",
+          explanation: "Under the Composition Scheme, manufacturers and traders pay 1% (0.5% CGST + 0.5% SGST) of turnover, while restaurants (not serving alcohol) pay 5%."
+        },
+        {
+          id: "GST17",
+          question: "Can a dealer registered under the Composition Scheme collect GST on invoices from customers or claim Input Tax Credit on purchases?",
+          options: [
+            "Neither collect GST from customers nor claim ITC",
+            "Can collect GST but cannot claim ITC",
+            "Cannot collect GST but can claim ITC",
+            "Can do both up to ₹1.5 Crore"
+          ],
+          correctIndex: 0,
+          concept: "Restrictions on Composition Dealer — Section 10(4)",
+          explanation: "A composition taxpayer issues a 'Bill of Supply' instead of a Tax Invoice, cannot collect any tax from the recipient, and is not entitled to claim any Input Tax Credit."
+        },
+        {
+          id: "GST18",
+          question: "A registered company receives legal representation services from a Senior Advocate for a business dispute, paying ₹1,00,000. Who is liable to pay GST on this service?",
+          options: [
+            "The recipient company under Reverse Charge Mechanism (RCM)",
+            "The Senior Advocate under Forward Charge",
+            "Exempt from GST",
+            "50% by Advocate and 50% by Company"
+          ],
+          correctIndex: 0,
+          concept: "Reverse Charge Mechanism (RCM) — Section 9(3)",
+          explanation: "Legal services supplied by an advocate or firm of advocates to a business entity are notified under Section 9(3), making the recipient business entity liable to pay GST under RCM."
+        },
+        {
+          id: "GST19",
+          question: "A registered manufacturer transports taxable goods worth ₹65,000 by road from its factory in Hyderabad to a buyer 45 km away within Telangana. Is generating an E-Way Bill mandatory?",
+          options: [
+            "Yes, mandatory whenever consignment value exceeds ₹50,000",
+            "No, required only for inter-state movement",
+            "No, required only if distance exceeds 100 km",
+            "Required only above ₹1,00,000"
+          ],
+          correctIndex: 0,
+          concept: "E-Way Bill Generation — Rule 138",
+          explanation: "Under Rule 138, an E-Way Bill must be generated before commencement of movement of goods whenever the consignment value (including GST) exceeds ₹50,000, whether inter-state or intra-state."
+        },
+        {
+          id: "GST20",
+          question: "What is the standard due date for filing monthly GSTR-1 (details of outward supplies) for a normal taxpayer not under the QRMP scheme?",
+          options: [
+            "11th of the succeeding month",
+            "20th of the succeeding month",
+            "13th of the succeeding month",
+            "31st of the succeeding month"
+          ],
+          correctIndex: 0,
+          concept: "Outward Supply Return — Section 37 & Rule 59",
+          explanation: "Monthly GSTR-1 is due on the 11th day of the month succeeding the tax period (while monthly GSTR-3B summary return is due on the 20th)."
+        },
+        {
+          id: "GST21",
+          question: "After supplying goods and issuing a tax invoice for ₹1,00,000 + ₹18,000 GST, the recipient returns damaged goods worth ₹20,000 + ₹3,600 GST. Which document should the supplier issue to reduce his output tax liability?",
+          options: ["Credit Note", "Debit Note", "Bill of Supply", "Delivery Challan"],
+          correctIndex: 0,
+          concept: "Credit Note Issuance — Section 34(1)",
+          explanation: "When goods supplied are returned or taxable value/tax charged exceeds the actual payable amount, the registered supplier issues a Credit Note under Section 34(1)."
+        },
+        {
+          id: "GST22",
+          question: "Under GST, which of the following transactions is neither a supply of goods nor a supply of services (covered under Schedule III)?",
+          options: [
+            "Services by an employee to the employer in the course of employment",
+            "Permanent transfer of business assets on which ITC was availed",
+            "Renting of commercial immovable property",
+            "Supply of goods by an agent on behalf of principal"
+          ],
+          correctIndex: 0,
+          concept: "Negative List — Schedule III",
+          explanation: "Schedule III lists activities treated neither as supply of goods nor services, including employee services to employer in the course of employment, funeral services, and sale of land/completed buildings."
+        },
+        {
+          id: "GST23",
+          question: "A registered buyer receives goods on credit on 1st March, claims ITC in GSTR-3B, but fails to pay the supplier's invoice value plus tax even after 180 days from the invoice date. What is the consequence under Section 16(2)?",
+          options: [
+            "The ITC availed must be reversed/added to output tax liability along with interest",
+            "No consequence; ITC remains permanent",
+            "Only 50% ITC is reversed",
+            "Penalty of ₹10,000 is levied without ITC reversal"
+          ],
+          correctIndex: 0,
+          concept: "180-Day Payment Rule for ITC — Second Proviso to Section 16(2)",
+          explanation: "If a recipient fails to pay the supplier within 180 days from the invoice date, an amount equal to the ITC availed must be paid/reversed along with applicable interest (re-claimable once payment is made)."
+        },
+        {
+          id: "GST24",
+          question: "What is the maximum rate of IGST that can be levied under Section 5 of the IGST Act, 2017?",
+          options: ["40%", "28%", "20%", "36%"],
+          correctIndex: 0,
+          concept: "Statutory Cap on IGST Rate — Section 5(1)",
+          explanation: "Under Section 5(1) of the IGST Act, IGST cannot exceed 40% (mirroring the 20% CGST + 20% SGST statutory ceiling)."
+        },
+        {
+          id: "GST25",
+          question: "A registered hotel located in Goa provides accommodation services to a corporate client registered in Mumbai. Where is the Place of Supply for this hotel accommodation service?",
+          options: [
+            "Goa (location of the immovable property)",
+            "Mumbai (location of the recipient)",
+            "Inter-state supply taxed under IGST",
+            "Delhi (head office)"
+          ],
+          correctIndex: 0,
+          concept: "Place of Supply for Immovable Property — Section 12(3) of IGST Act",
+          explanation: "For lodging/accommodation services by a hotel, the Place of Supply is always the location of the immovable property (Goa), making it an intra-state supply in Goa (CGST + Goa SGST)."
+        },
+        {
+          id: "GST26",
+          question: "Under Section 51 of the CGST Act, a Government Department awards a taxable supply contract worth ₹3,50,000 (excluding GST) to a registered vendor. At what total rate is GST TDS deducted on the payment?",
+          options: ["2% (1% CGST + 1% SGST, or 2% IGST)", "1%", "5%", "10%"],
+          correctIndex: 0,
+          concept: "GST TDS by Government Entities — Section 51",
+          explanation: "Notified Government entities must deduct GST TDS at 2% (1% CGST + 1% SGST for intra-state, or 2% IGST for inter-state) when the total contract value exceeds ₹2,50,000."
+        },
+        {
+          id: "GST27",
+          question: "An exporter exports taxable goods under a Letter of Undertaking (LUT) without payment of IGST. How is this supply classified under Section 16 of the IGST Act?",
+          options: [
+            "Zero-Rated Supply (eligible for ITC refund on inputs)",
+            "Exempt Supply (no ITC allowed)",
+            "Nil-Rated Supply (no ITC allowed)",
+            "Non-GST Supply"
+          ],
+          correctIndex: 0,
+          concept: "Zero-Rated Supply — Section 16 of IGST Act",
+          explanation: "Exports of goods/services and supplies to SEZ developers/units are Zero-Rated Supplies. Unlike exempt supplies, full ITC is allowed and unutilized ITC can be claimed as a refund."
+        },
+        {
+          id: "GST28",
+          question: "Within how many days from the date of becoming liable for registration must a person apply for GST registration under Section 25(1)?",
+          options: ["30 days", "15 days", "60 days", "7 days"],
+          correctIndex: 0,
+          concept: "Registration Application Timeline — Section 25(1)",
+          explanation: "Every person liable to be registered under Section 22 or Section 24 must apply for registration within 30 days from the date on which he becomes liable."
+        },
+        {
+          id: "GST29",
+          question: "If a taxpayer has no outward supplies, no inward supplies, and no tax liability during a month, is he still required to file a 'Nil' GSTR-3B return?",
+          options: [
+            "Yes, filing a Nil return is mandatory for every registered person",
+            "No, returns are only required when tax is payable",
+            "Only once at the end of the year",
+            "Only if turnover exceeded ₹20 Lakhs in the previous year"
+          ],
+          correctIndex: 0,
+          concept: "Mandatory Nil Return Filing — Section 39",
+          explanation: "Every registered person (other than excluded categories) must furnish a return for every tax period even if there are no business transactions (Nil return)."
+        },
+        {
+          id: "GST30",
+          question: "In which Electronic Ledger is the cash deposited via internet banking, NEFT, or challan PMT-06 credited on the GST portal?",
+          options: [
+            "Electronic Cash Ledger",
+            "Electronic Credit Ledger",
+            "Electronic Liability Register",
+            "GSTR-2B Statement"
+          ],
+          correctIndex: 0,
+          concept: "Electronic Ledgers — Section 49",
+          explanation: "Tax, interest, penalty, and fees paid through challan are credited to the Electronic Cash Ledger, whereas self-assessed ITC is credited to the Electronic Credit Ledger."
+        }
+      ],
+
+      // ==================== PAPER III: FINANCIAL ACCOUNTS (30 QUESTIONS) ====================
+      accounts: [
+        {
+          id: "ACC01",
+          question: "A business paid Rent of ₹6,000 during the financial year as shown in the Trial Balance, while ₹1,000 rent remains unpaid at year-end. What total Rent expense is debited to the Profit & Loss Account?",
+          options: ["₹7,000", "₹6,000", "₹5,000", "₹1,000"],
+          correctIndex: 0,
+          concept: "Accrual Adjustment",
+          explanation: "Total Rent Expense = Cash Paid (₹6,000) + Outstanding Rent (₹1,000) = ₹7,000, with ₹1,000 shown as a Current Liability."
+        },
+        {
+          id: "ACC02",
+          question: "Furniture is shown at ₹20,000 in the Trial Balance with an adjustment to depreciate it at 10% p.a. What net carrying amount appears on the Balance Sheet?",
+          options: ["₹18,000", "₹20,000", "₹2,000", "₹22,000"],
+          correctIndex: 0,
+          concept: "Depreciation Netting",
+          explanation: "Depreciation = 10% of ₹20,000 = ₹2,000. Net Furniture in Balance Sheet = ₹20,000 - ₹2,000 = ₹18,000."
+        },
+        {
+          id: "ACC03",
+          question: "Closing inventory has a historical cost of ₹50,000 and a Net Realisable Value (NRV) of ₹46,000. At what value should it be recognized in the financial statements?",
+          options: ["₹46,000", "₹50,000", "₹48,000", "₹4,000"],
+          correctIndex: 0,
+          concept: "Prudence & Inventory Valuation (AS-2 / Ind AS 2)",
+          explanation: "Inventories are valued at the lower of Cost (₹50,000) and Net Realisable Value (₹46,000), i.e., ₹46,000."
+        },
+        {
+          id: "ACC04",
+          question: "A bank statement shows a credit (favourable) balance of ₹85,000. Cheques issued to suppliers amounting to ₹18,000 have not yet been presented for payment, and cheques deposited worth ₹12,000 are not yet credited. What is the balance as per Cash Book?",
+          options: ["₹79,000", "₹91,000", "₹85,000", "₹67,000"],
+          correctIndex: 0,
+          concept: "Bank Reconciliation Statement (BRS)",
+          explanation: "Starting from Pass Book favourable balance (₹85,000): Less cheques issued but not presented (-₹18,000) + Cheques deposited but not credited (+₹12,000) = ₹79,000 Cash Book balance."
+        },
+        {
+          id: "ACC05",
+          question: "A machine purchased for ₹1,00,000 is depreciated at 10% p.a. under the Written Down Value (WDV) method. What is the depreciation charge in the second year?",
+          options: ["₹9,000", "₹10,000", "₹8,100", "₹19,000"],
+          correctIndex: 0,
+          concept: "Written Down Value (WDV) Depreciation",
+          explanation: "Year 1 Depreciation = 10% of ₹1,00,000 = ₹10,000. WDV at start of Year 2 = ₹90,000. Year 2 Depreciation = 10% of ₹90,000 = ₹9,000."
+        },
+        {
+          id: "ACC06",
+          question: "A credit purchase of furniture for ₹15,000 was wrongly recorded in the Purchases Day Book. How is this error rectified before preparing Final Accounts?",
+          options: [
+            "Debit Furniture A/c ₹15,000 and Credit Purchases A/c ₹15,000",
+            "Debit Purchases A/c ₹15,000 and Credit Furniture A/c ₹15,000",
+            "Debit Suspense A/c ₹15,000 and Credit Furniture A/c ₹15,000",
+            "Debit Furniture A/c ₹15,000 and Credit Supplier A/c ₹15,000"
+          ],
+          correctIndex: 0,
+          concept: "Rectification of Error of Principle",
+          explanation: "The supplier's account was correctly credited, but Purchases A/c was wrongly debited instead of Furniture A/c. Rectification: Debit Furniture A/c ₹15,000, Credit Purchases A/c ₹15,000."
+        },
+        {
+          id: "ACC07",
+          question: "Sundry Debtors stand at ₹1,20,000. Further bad debts to be written off are ₹3,000, and a 5% provision for doubtful debts is required on remaining debtors. What is the closing Provision for Doubtful Debts?",
+          options: ["₹5,850", "₹6,000", "₹6,150", "₹3,000"],
+          correctIndex: 0,
+          concept: "Provision for Doubtful Debts",
+          explanation: "Good Debtors = ₹1,20,000 - ₹3,000 = ₹1,17,000. Closing Provision = 5% of ₹1,17,000 = ₹5,850."
+        },
+        {
+          id: "ACC08",
+          question: "A trader draws a Bill of Exchange for ₹40,000 on a customer for 3 months and discounts it immediately with his bank at 12% p.a. What net cash proceeds does the trader receive from the bank?",
+          options: ["₹38,800", "₹40,000", "₹35,200", "₹39,600"],
+          correctIndex: 0,
+          concept: "Discounting of Bill of Exchange",
+          explanation: "Discount = ₹40,000 × 12% × (3/12) = ₹1,200. Net proceeds credited to trader = ₹40,000 - ₹1,200 = ₹38,800."
+        },
+        {
+          id: "ACC09",
+          question: "A company has Current Assets of ₹4,50,000 (including Inventory of ₹1,50,000 and Prepaid Expenses of ₹30,000) and Current Liabilities of ₹1,80,000. What is its Quick (Acid-Test) Ratio?",
+          options: ["1.5 : 1", "2.5 : 1", "1.67 : 1", "2.0 : 1"],
+          correctIndex: 0,
+          concept: "Quick / Acid-Test Ratio",
+          explanation: "Quick Assets = Current Assets (₹4,50,000) - Inventory (₹1,50,000) - Prepaid Expenses (₹30,000) = ₹2,70,000. Quick Ratio = ₹2,70,000 / ₹1,80,000 = 1.5 : 1."
+        },
+        {
+          id: "ACC10",
+          question: "A business has Net Sales of ₹8,00,000 and earns a Gross Profit of 25% on Cost of Goods Sold. What is the Gross Profit amount?",
+          options: ["₹1,60,000", "₹2,00,000", "₹2,50,000", "₹1,50,000"],
+          correctIndex: 0,
+          concept: "Margin vs Markup Conversion",
+          explanation: "25% (1/4) on Cost equals 1/(4+1) = 20% (1/5) on Sales. Gross Profit = 20% of ₹8,00,000 = ₹1,60,000."
+        },
+        {
+          id: "ACC11",
+          question: "A and B share profits in the ratio of 3:2. They admit C for a 1/5th share in future profits, which C acquires equally from A and B. What is the new profit-sharing ratio of A, B, and C?",
+          options: ["5 : 3 : 2", "3 : 2 : 1", "6 : 4 : 2", "4 : 4 : 2"],
+          correctIndex: 0,
+          concept: "Admission of Partner — New Ratio",
+          explanation: "C's share = 1/5 (2/10). Sacrificed by A = 1/10; Sacrificed by B = 1/10. A's new share = 3/5 - 1/10 = 5/10; B's new share = 2/5 - 1/10 = 3/10; C's share = 2/10. Ratio = 5:3:2."
+        },
+        {
+          id: "ACC12",
+          question: "A company forfeits 500 equity shares of ₹10 each (fully called up) for non-payment of final call of ₹3 per share, and reissues them at ₹8 per share fully paid-up. How much is transferred to Capital Reserve?",
+          options: ["₹2,500", "₹3,500", "₹1,000", "₹1,500"],
+          correctIndex: 0,
+          concept: "Forfeiture & Reissue of Shares",
+          explanation: "Amount forfeited = 500 × ₹7 received = ₹3,500. Discount on reissue = 500 × ₹2 = ₹1,000. Net gain transferred to Capital Reserve = ₹3,500 - ₹1,000 = ₹2,500."
+        },
+        {
+          id: "ACC13",
+          question: "Under Schedule III of the Companies Act, 2013, how are 'Calls-in-Arrears' presented in a company's Balance Sheet?",
+          options: [
+            "Deducted from Subscribed Share Capital under Shareholders' Funds",
+            "Shown as a Current Asset under Trade Receivables",
+            "Debited to Statement of Profit & Loss",
+            "Shown under Short-Term Borrowings"
+          ],
+          correctIndex: 0,
+          concept: "Schedule III Share Capital Presentation",
+          explanation: "Under Schedule III, Calls-in-Arrears are shown as a deduction from 'Subscribed but not fully paid-up' capital under the head Share Capital."
+        },
+        {
+          id: "ACC14",
+          question: "A company issues 10% Debentures of ₹5,00,000. Interest paid during the year is ₹25,000. What amount of outstanding debenture interest must be accrued at year-end?",
+          options: ["₹25,000", "₹50,000", "₹0", "₹10,000"],
+          correctIndex: 0,
+          concept: "Debenture Interest Accrual",
+          explanation: "Annual interest = 10% of ₹5,00,000 = ₹50,000. Since ₹25,000 is already paid, ₹25,000 is accrued as Finance Cost and Current Liability."
+        },
+        {
+          id: "ACC15",
+          question: "A company reports Loss on Sale of Investments of ₹1,20,000 and Dividend Paid of ₹60,000. How are these treated in corporate financial statements?",
+          options: [
+            "Loss on sale is debited to Statement of P&L; Dividend paid is appropriated from Retained Earnings",
+            "Both are debited to Statement of P&L as operating expenses",
+            "Dividend paid is debited to P&L; Loss on sale is deducted from Share Capital",
+            "Both are shown as Current Assets"
+          ],
+          correctIndex: 0,
+          concept: "P&L Expense vs Equity Appropriation",
+          explanation: "Loss on sale of investments affects profit in the Statement of P&L, whereas dividend paid is a distribution of profits adjusted in Statement of Changes in Equity."
+        },
+        {
+          id: "ACC16",
+          question: "In a Cash Flow Statement (AS-3 / Ind AS 7), how are 'Interest Paid' and 'Dividend Paid' classified by a non-financial manufacturing company?",
+          options: [
+            "Both as Cash Flows from Financing Activities",
+            "Both as Cash Flows from Operating Activities",
+            "Interest Paid under Operating & Dividend Paid under Investing",
+            "Both as Cash Flows from Investing Activities"
+          ],
+          correctIndex: 0,
+          concept: "Cash Flow Classification (AS-3)",
+          explanation: "For a non-financial enterprise, both interest paid on borrowings and dividends paid to shareholders represent costs of obtaining financial resources and are Financing Activities."
+        },
+        {
+          id: "ACC17",
+          question: "A business has Opening Stock of ₹40,000, Closing Stock of ₹60,000, and Cost of Goods Sold of ₹4,00,000. What is its Inventory Turnover Ratio?",
+          options: ["8 times", "10 times", "6.67 times", "4 times"],
+          correctIndex: 0,
+          concept: "Inventory Turnover Ratio",
+          explanation: "Average Inventory = (₹40,000 + ₹60,000) / 2 = ₹50,000. Inventory Turnover Ratio = COGS (₹4,00,000) / Average Inventory (₹50,000) = 8 times."
+        },
+        {
+          id: "ACC18",
+          question: "Goods costing ₹15,000 were sent to a customer on 'Sale or Return' basis at an invoice price of ₹20,000 and recorded as normal sales. At year-end, no approval was received. What is the net effect on Closing Stock?",
+          options: [
+            "Closing Stock increases by ₹15,000 (at cost)",
+            "Closing Stock increases by ₹20,000 (at selling price)",
+            "Closing Stock decreases by ₹15,000",
+            "No effect on Closing Stock"
+          ],
+          correctIndex: 0,
+          concept: "Goods Sent on Approval Basis",
+          explanation: "Unapproved goods remain the property of the seller and must be added back to Closing Stock at cost price (₹15,000), while Sales and Debtors are reduced by ₹20,000."
+        },
+        {
+          id: "ACC19",
+          question: "A company has Net Profit before manager's commission of ₹1,10,000. The manager is entitled to a commission of 10% on net profit after charging such commission. What is the commission payable?",
+          options: ["₹10,000", "₹11,000", "₹9,900", "₹1,100"],
+          correctIndex: 0,
+          concept: "Manager's Commission After Charging",
+          explanation: "Commission = ₹1,10,000 × (10 / 110) = ₹10,000 (leaving Net Profit after commission = ₹1,00,000, and 10% of ₹1,00,000 = ₹10,000)."
+        },
+        {
+          id: "ACC20",
+          question: "A warehouse fire destroys uninsured stock costing ₹35,000, and for another batch costing ₹40,000 the insurer admits a claim of ₹30,000. What total abnormal loss is debited to the Profit & Loss Account?",
+          options: ["₹45,000", "₹75,000", "₹30,000", "₹10,000"],
+          correctIndex: 0,
+          concept: "Abnormal Loss & Insurance Claim",
+          explanation: "Uninsured loss (₹35,000) + unrecovered portion of insured stock (₹40,000 - ₹30,000 = ₹10,000) = ₹45,000 debited to P&L Account."
+        },
+        {
+          id: "ACC21",
+          question: "Which financial ratio measures a company's long-term solvency by comparing total outside long-term borrowings to Shareholders' Funds?",
+          options: ["Debt-Equity Ratio", "Current Ratio", "Trade Receivables Turnover Ratio", "Operating Profit Ratio"],
+          correctIndex: 0,
+          concept: "Solvency Ratios — Debt-Equity Ratio",
+          explanation: "Debt-Equity Ratio = Long-Term Debt / Shareholders' Funds, evaluating long-term financial leverage and solvency."
+        },
+        {
+          id: "ACC22",
+          question: "A business purchased machinery for ₹5,00,000, paid ₹40,000 for transit insurance and freight, ₹30,000 for installation, and ₹25,000 for routine annual maintenance after commissioning. What is the capitalized cost of the machinery?",
+          options: ["₹5,70,000", "₹5,95,000", "₹5,00,000", "₹5,40,000"],
+          correctIndex: 0,
+          concept: "Capital vs Revenue Expenditure (AS-10 / Ind AS 16)",
+          explanation: "Capitalized Cost = Purchase price (₹5,00,000) + Freight (₹40,000) + Installation (₹30,000) = ₹5,70,000. Routine post-commissioning maintenance (₹25,000) is a revenue expense."
+        },
+        {
+          id: "ACC23",
+          question: "If Opening Capital is ₹3,00,000, Closing Capital is ₹4,20,000, Drawings during the year are ₹40,000, and Fresh Capital introduced is ₹50,000, what is the Net Profit earned during the year?",
+          options: ["₹1,10,000", "₹1,20,000", "₹1,30,000", "₹90,000"],
+          correctIndex: 0,
+          concept: "Statement of Affairs Profit Formula",
+          explanation: "Net Profit = Closing Capital (₹4,20,000) + Drawings (₹40,000) - Fresh Capital (₹50,000) - Opening Capital (₹3,00,000) = ₹1,10,000."
+        },
+        {
+          id: "ACC24",
+          question: "Under which head of a company's Balance Sheet is 'Provision for Taxation' (net of advance tax) presented?",
+          options: [
+            "Current Liabilities — Short-Term Provisions",
+            "Non-Current Liabilities — Long-Term Provisions",
+            "Shareholders' Funds — Reserves & Surplus",
+            "Current Assets — Short-Term Loans & Advances"
+          ],
+          correctIndex: 0,
+          concept: "Schedule III Balance Sheet Classification",
+          explanation: "Current tax liabilities / Provision for Taxation expected to be settled within 12 months are classified under Current Liabilities (Short-Term Provisions)."
+        },
+        {
+          id: "ACC25",
+          question: "When a partner guarantees a minimum profit of ₹50,000 to an incoming partner, and the incoming partner's actual profit share works out to ₹38,000, how is the deficiency of ₹12,000 met?",
+          options: [
+            "Debited to the guaranteeing partner's Capital Account and credited to the incoming partner",
+            "Debited to Profit & Loss Account as an operating expense",
+            "Added to Goodwill of the firm",
+            "Ignored until retirement"
+          ],
+          correctIndex: 0,
+          concept: "Guarantee of Minimum Profit to a Partner",
+          explanation: "Any deficiency in guaranteed profit is borne by the guaranteeing partner(s) in their agreed ratio by debiting their Capital Account and crediting the guaranteed partner."
+        },
+        {
+          id: "ACC26",
+          question: "A company's Credit Revenue from Operations is ₹6,00,000, Opening Trade Receivables are ₹80,000, and Closing Trade Receivables are ₹1,20,000. What is the Average Collection Period (assuming 360 days in a year)?",
+          options: ["60 days", "48 days", "72 days", "30 days"],
+          correctIndex: 0,
+          concept: "Trade Receivables Turnover & Collection Period",
+          explanation: "Average Receivables = (₹80,000 + ₹1,20,000) / 2 = ₹1,00,000. Receivables Turnover = ₹6,00,000 / ₹1,00,000 = 6 times. Collection Period = 360 / 6 = 60 days."
+        },
+        {
+          id: "ACC27",
+          question: "Which of the following errors will NOT affect the agreement of a Trial Balance?",
+          options: [
+            "Complete omission of a credit sale invoice from the Sales Day Book",
+            "Posting ₹5,000 to the debit of Cash instead of ₹500",
+            "Wrong totalling of the Purchase Returns Book",
+            "Posting an entry twice to the debit of Rent Account"
+          ],
+          correctIndex: 0,
+          concept: "Errors Not Disclosed by Trial Balance",
+          explanation: "An Error of Complete Omission leaves both debit and credit unrecorded equally, so the Trial Balance totals still agree."
+        },
+        {
+          id: "ACC28",
+          question: "In a Receipts and Payments Account of a Non-Profit Organisation (NPO), what items are recorded?",
+          options: [
+            "All actual cash and bank receipts and payments, whether capital or revenue, of any period",
+            "Only revenue incomes and expenses belonging strictly to the current year",
+            "Non-cash items like depreciation and outstanding expenses",
+            "Only capital receipts and capital payments"
+          ],
+          correctIndex: 0,
+          concept: "NPO Accounting — Receipts & Payments vs Income & Expenditure",
+          explanation: "Receipts and Payments Account is a summary of cash/bank transactions recording all actual cash inflows and outflows regardless of capital/revenue nature or accounting period."
+        },
+        {
+          id: "ACC29",
+          question: "A firm's Average Net Profit is ₹90,000, Capital Employed is ₹5,00,000, and Normal Rate of Return is 12%. What is the value of Goodwill at 3 years' purchase of Super Profit?",
+          options: ["₹90,000", "₹30,000", "₹2,70,000", "₹1,80,000"],
+          correctIndex: 0,
+          concept: "Valuation of Goodwill — Super Profit Method",
+          explanation: "Normal Profit = 12% of ₹5,00,000 = ₹60,000. Super Profit = ₹90,000 - ₹60,000 = ₹30,000. Goodwill = ₹30,000 × 3 = ₹90,000."
+        },
+        {
+          id: "ACC30",
+          question: "If a company's Equity Share Capital is ₹10,00,000, Reserves & Surplus are ₹4,00,000, and 10% Debentures are ₹6,00,000, what is the Proprietary Ratio (Proprietors' Funds to Total Assets)?",
+          options: ["0.70 : 1 (70%)", "0.50 : 1 (50%)", "0.30 : 1 (30%)", "1.40 : 1 (140%)"],
+          correctIndex: 0,
+          concept: "Proprietary Ratio",
+          explanation: "Proprietors' Funds = ₹10,00,000 + ₹4,00,000 = ₹14,00,000. Total Assets = ₹14,00,000 + ₹6,00,000 = ₹20,00,000. Proprietary Ratio = ₹14,00,000 / ₹20,00,000 = 0.70 : 1."
+        }
+      ]
+    };
 
 
     // ----------------------------------------------------------------------
-    // GLOBAL STATE VARIABLES
+    // GLOBAL STATE VARIABLES & NON-REPEAT MEMORY HELPERS
     // ----------------------------------------------------------------------
+    let selectedSubject = "incometax";
     let candidateName = "";
-    let activeQuestions = []; // 20 randomized questions selected for this candidate session
+    let activeQuestions = []; // 20 randomized, non-repeating questions selected for this candidate session
     let userAnswers = new Array(20).fill(null);
     let questionStatuses = new Array(20).fill('not-visited'); // 'not-visited', 'not-answered', 'answered', 'marked', 'answered-marked'
     let currentQIndex = 0;
@@ -773,9 +1475,79 @@
       return arr;
     }
 
+    // Read/Write Used Question IDs in localStorage so questions don't repeat
+    function getUsedQuestionIds(subjectKey) {
+      try {
+        const raw = localStorage.getItem(SUBJECT_META[subjectKey].storageKey);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveUsedQuestionIds(subjectKey, newIds) {
+      try {
+        const existing = getUsedQuestionIds(subjectKey);
+        const merged = Array.from(new Set([...existing, ...newIds]));
+        localStorage.setItem(SUBJECT_META[subjectKey].storageKey, JSON.stringify(merged));
+      } catch (e) {
+        console.warn("Unable to persist question memory:", e);
+      }
+    }
+
+    function updateMemoryBadges() {
+      ['incometax', 'gst', 'accounts'].forEach(sub => {
+        const usedCount = getUsedQuestionIds(sub).length;
+        const totalCount = QUESTION_BANKS[sub].length;
+        const badge = document.getElementById(`mem-badge-${sub}`);
+        if (badge) {
+          badge.textContent = `${usedCount}/${totalCount} Used`;
+        }
+      });
+    }
+
+    function resetQuestionMemory() {
+      ['incometax', 'gst', 'accounts'].forEach(sub => {
+        try {
+          localStorage.removeItem(SUBJECT_META[sub].storageKey);
+        } catch (e) {}
+      });
+      updateMemoryBadges();
+      const toast = document.getElementById('memory-toast');
+      if (toast) {
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 3000);
+      }
+    }
+
+    function selectSubject(subKey) {
+      selectedSubject = subKey;
+      const styles = {
+        incometax: { border: "border-blue-600", bg: "bg-blue-50/70" },
+        gst: { border: "border-indigo-600", bg: "bg-indigo-50/70" },
+        accounts: { border: "border-emerald-600", bg: "bg-emerald-50/70" }
+      };
+
+      ['incometax', 'gst', 'accounts'].forEach(key => {
+        const card = document.getElementById(`sub-card-${key}`);
+        if (!card) return;
+        if (key === subKey) {
+          card.className = `subject-card text-left p-4 rounded-xl border-2 ${styles[key].border} ${styles[key].bg} transition-all shadow-sm`;
+        } else {
+          card.className = `subject-card text-left p-4 rounded-xl border-2 border-slate-200 bg-slate-50 hover:border-slate-300 transition-all`;
+        }
+      });
+    }
+
+    // Initialize memory badges on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      updateMemoryBadges();
+      selectSubject('incometax');
+    });
+
 
     // ----------------------------------------------------------------------
-    // STEP 1: EXAM INITIALIZATION & SHUFFLING
+    // STEP 1: EXAM INITIALIZATION & NON-REPEATING SHUFFLING
     // ----------------------------------------------------------------------
     function startAssessment() {
       const nameInput = document.getElementById('candidate-name-input');
@@ -790,9 +1562,33 @@
       errEl.classList.add('hidden');
       candidateName = nameVal;
 
-      // 1. Pick 20 questions randomly from 30
-      const shuffledBank = shuffleArray(QUESTION_BANK);
-      const raw20 = shuffledBank.slice(0, 20);
+      // 1. Pick 20 non-repeating questions from the chosen subject bank
+      const fullBank = QUESTION_BANKS[selectedSubject];
+      const usedIds = getUsedQuestionIds(selectedSubject);
+      let unseenPool = fullBank.filter(q => !usedIds.includes(q.id));
+
+      let raw20 = [];
+      if (unseenPool.length >= 20) {
+        raw20 = shuffleArray(unseenPool).slice(0, 20);
+        saveUsedQuestionIds(selectedSubject, raw20.map(q => q.id));
+      } else {
+        // Take all remaining unseen questions first, then reset cycle and fill up to 20 without duplicates in current test
+        const pickedUnseen = shuffleArray(unseenPool);
+        const unseenIdSet = new Set(pickedUnseen.map(q => q.id));
+        const recycledPool = shuffleArray(fullBank.filter(q => !unseenIdSet.has(q.id)));
+        const needed = 20 - pickedUnseen.length;
+        const pickedRecycled = recycledPool.slice(0, needed);
+        raw20 = shuffleArray([...pickedUnseen, ...pickedRecycled]);
+
+        // Reset memory to start fresh with the newly recycled questions
+        try {
+          localStorage.setItem(
+            SUBJECT_META[selectedSubject].storageKey,
+            JSON.stringify(pickedRecycled.map(q => q.id))
+          );
+        } catch (e) {}
+      }
+      updateMemoryBadges();
 
       // 2. Shuffle options for each question while keeping track of the correct answer index
       activeQuestions = raw20.map((qItem, idx) => {
@@ -821,7 +1617,9 @@
       secondsRemaining = TOTAL_EXAM_TIME;
       timeSpentSeconds = 0;
 
-      // Update UI elements
+      // Update UI elements with selected paper title
+      const paperTitle = SUBJECT_META[selectedSubject].title;
+      document.getElementById('cbt-paper-title').textContent = paperTitle;
       document.getElementById('display-candidate-name').textContent = candidateName;
       document.getElementById('screen-entry').classList.add('hidden');
       document.getElementById('screen-cbt').classList.remove('hidden');
@@ -1094,6 +1892,9 @@
       const accuracy = attempted > 0 ? Math.round((correctCount / attempted) * 100) : 0;
 
       // Populate Result Header
+      const paperTitle = SUBJECT_META[selectedSubject].title;
+      document.getElementById('results-header-title').textContent = `${paperTitle} — Results`;
+      document.getElementById('marksheet-paper-title').textContent = paperTitle;
       document.getElementById('res-candidate-name').textContent = candidateName;
       const minsSpent = Math.floor(timeSpentSeconds / 60);
       const secsSpent = timeSpentSeconds % 60;
@@ -1202,9 +2003,10 @@
     // ----------------------------------------------------------------------
     function downloadPDFMarksheet() {
       const element = document.getElementById('printable-pdf-area');
+      const subjectSlug = SUBJECT_META[selectedSubject].shortName.replace(/\s+/g, '_');
       const opt = {
         margin:       [0.4, 0.4, 0.4, 0.4],
-        filename:     `${candidateName.replace(/\s+/g, '_')}_Final_Accounts_Marksheet.pdf`,
+        filename:     `${candidateName.replace(/\s+/g, '_')}_${subjectSlug}_Marksheet.pdf`,
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { scale: 2, useCORS: true },
         jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
@@ -1230,17 +2032,19 @@
       const score = document.getElementById('res-score').textContent;
       const percentage = document.getElementById('res-percentage').textContent;
       const timeSpent = document.getElementById('res-time-spent').textContent;
+      const statusText = document.getElementById('res-status-badge').textContent;
+      const paperTitle = SUBJECT_META[selectedSubject].title;
 
-      const summaryText = `🎓 Final Accounts Assessment Marksheet\n` +
+      const summaryText = `🎓 ${paperTitle} Marksheet\n` +
                           `Candidate Name: ${candidateName}\n` +
                           `Score: ${score} / 20 (${percentage})\n` +
                           `Time Taken: ${timeSpent}\n` +
                           `Date: ${new Date().toLocaleDateString()}\n` +
-                          `Result: PASSED`;
+                          `Result: ${statusText}`;
 
       if (navigator.share) {
         navigator.share({
-          title: 'Final Accounts Assessment Marksheet',
+          title: `${paperTitle} Marksheet`,
           text: summaryText,
           url: window.location.href
         }).catch(err => {
@@ -1286,6 +2090,7 @@
       document.getElementById('cbt-calculator').classList.add('hidden');
       document.getElementById('screen-results').classList.add('hidden');
       document.getElementById('screen-entry').classList.remove('hidden');
+      updateMemoryBadges();
     }
 
     // ----------------------------------------------------------------------
